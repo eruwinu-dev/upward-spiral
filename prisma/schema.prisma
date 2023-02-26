@@ -37,13 +37,17 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
+  id                String              @id @default(cuid())
+  name              String?
+  email             String?             @unique
+  emailVerified     DateTime?
+  image             String?
+  role              Role                @default(USER)
+  accounts          Account[]
+  sessions          Session[]
+  habits            Habit[]
+  programsAsTrainer Program[]
+  programsAsTrainee ProgramsOnTrainee[]
 }
 
 model VerificationToken {
@@ -53,4 +57,96 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Program {
+  id          String              @id @default(cuid())
+  name        String
+  slug        String
+  description String
+  type        ProgramType         @default(CUSTOM)
+  createdAt   DateTime            @default(now())
+  startDate   DateTime            @default(now()) @db.Date
+  habits      Habit[]
+  trainerId   String?
+  trainer     User?               @relation(fields: [trainerId], references: [id], onDelete: SetNull)
+  trainees    ProgramsOnTrainee[]
+
+  @@unique([slug])
+}
+
+model ProgramsOnTrainee {
+  programId String
+  program   Program  @relation(fields: [programId], references: [id])
+  traineeId String
+  trainee   User     @relation(fields: [traineeId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([programId, traineeId])
+}
+
+model Habit {
+  id          String         @id @default(cuid())
+  title       String
+  slug        String
+  message     String
+  createdAt   DateTime       @default(now())
+  frequency   HabitFrequency @default(CUSTOM)
+  repeatDay   Int?
+  duration    Int?
+  metric      HabitMetric    @default(CHECK)
+  logs        Log[]
+  habitTypeId String?
+  habitType   HabitType?     @relation(fields: [habitTypeId], references: [id])
+  creatorId   String?
+  creator     User?          @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  programId   String?
+  program     Program?       @relation(fields: [programId], references: [id], onDelete: Cascade)
+
+  @@unique([programId, slug])
+}
+
+model HabitType {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String
+  description String?
+  updatedAt   DateTime @default(now())
+  habits      Habit[]
+  isCustom    Boolean  @default(false)
+}
+
+model Log {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  message   String
+
+  habitId String
+  habit   Habit  @relation(fields: [habitId], references: [id])
+}
+
+enum Role {
+  USER
+  TRAINER
+  ADMIN
+}
+
+enum ProgramType {
+  DEFAULT
+  CUSTOM
+  TEMPLATE
+}
+
+enum HabitFrequency {
+  DAILY
+  WEEKLY
+  BIWEEKLY
+  CUSTOM
+}
+
+enum HabitMetric {
+  RATING
+  NUMBER
+  MESSAGE
+  CHECK
 }
