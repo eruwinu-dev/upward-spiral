@@ -13,7 +13,7 @@ type Props = {
 
 const TrainerTopBar = ({ program, habit }: Props) => {
     const { toggleDialog } = useUserContext()
-    const { push, pathname, render, renderPath } = usePageRender()
+    const { push, pathname, render, renderPath, role } = usePageRender()
 
     const toggleDialogHandler =
         (prop: keyof UserDialog) =>
@@ -34,18 +34,35 @@ const TrainerTopBar = ({ program, habit }: Props) => {
         else
             push(
                 {
-                    pathname,
+                    pathname: "/trainer",
                     query: {},
                 },
-                renderPath({}),
+                undefined,
                 { shallow: true }
             )
+    }
+
+    const goToProgramHandler = (event: MouseEvent<HTMLHeadingElement>) => {
+        if (!program) return
+        push(
+            {
+                pathname,
+                query: render === "static" ? { program: program.slug } : {},
+            },
+            renderPath({ program: program.slug }),
+            { shallow: true }
+        )
     }
 
     return (
         <div className="sticky top-0 left-0 min-h-[7vh] max-h-[7vh] grid grid-cols-3 grid-flow-row py-1 px-2 bg-white col-span-12">
             <div className="inline-flex items-center justify-start w-full space-x-1">
-                <h2 className="text-lg font-semibold">{program.name}</h2>
+                <h2
+                    className="link link-hover text-lg font-semibold"
+                    onClick={goToProgramHandler}
+                >
+                    {program.name}
+                </h2>
                 {habit ? (
                     <h2 className="text-lg">{`/ ${habit.title}`}</h2>
                 ) : null}
@@ -70,16 +87,28 @@ const TrainerTopBar = ({ program, habit }: Props) => {
                                 </a>
                             </li>
                         ) : (
-                            <li>
-                                <a
-                                    className="focus:bg-white"
-                                    onClick={toggleDialogHandler(
-                                        "deleteProgram"
-                                    )}
-                                >
-                                    Delete Program
-                                </a>
-                            </li>
+                            <>
+                                <li>
+                                    <a
+                                        className="focus:bg-white"
+                                        onClick={toggleDialogHandler(
+                                            "editProgram"
+                                        )}
+                                    >
+                                        Edit Program
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        className="focus:bg-white"
+                                        onClick={toggleDialogHandler(
+                                            "deleteProgram"
+                                        )}
+                                    >
+                                        Delete Program
+                                    </a>
+                                </li>
+                            </>
                         )}
                     </ul>
                 </div>

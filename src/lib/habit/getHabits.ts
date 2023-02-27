@@ -10,6 +10,7 @@ export const getHabits = async (
         select: {
             id: true,
             title: true,
+            isCustom: true,
             habits: {
                 where:
                     role === "USER"

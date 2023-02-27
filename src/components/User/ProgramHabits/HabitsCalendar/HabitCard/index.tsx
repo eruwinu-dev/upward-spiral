@@ -1,27 +1,20 @@
-import useUserContext from "@/context/UserState"
-import { CompleteHabit } from "@/types/habit"
+import { GroupedHabit } from "@/types/habit"
 import React from "react"
 
 import { daysOfWeek } from "@/utils/dates"
 import HabitLog from "./HabitLog"
 
 type Props = {
-    habits: CompleteHabit[]
+    group: GroupedHabit
 }
 
-const HabitCard = ({ habits }: Props) => {
-    const { programView } = useUserContext()
-
-    const habitType = habits[0].habitType
-
+const HabitCard = ({ group: { title, habits } }: Props) => {
     return (
-        <div className="grid grid-cols-1 grid-flow-row gap-4 place-items-center">
-            <h3 className="text-xl font-bold">
-                {habitType?.title || "Custom Habits"}
-            </h3>
-            {programView === "DAILY" ? (
-                <div>Daily View</div>
-            ) : (
+        <div className="w-full grid grid-cols-1 grid-flow-row gap-4 rounded-lg bg-white p-4">
+            <div>
+                <h3 className="text-xl font-bold">{title}</h3>
+            </div>
+            {habits.length ? (
                 <table className="table table-auto w-full text-xs">
                     <thead>
                         <tr>
@@ -41,14 +34,17 @@ const HabitCard = ({ habits }: Props) => {
                                 </td>
                                 {daysOfWeek.map((day, index) => (
                                     <td key={day} className="text-center">
-                                        <HabitLog habit={habit} day={index} />
+                                        <HabitLog
+                                            habit={habit}
+                                            day={index + 1}
+                                        />
                                     </td>
                                 ))}
                             </tr>
                         ))}
                     </tbody>
                 </table>
-            )}
+            ) : null}
         </div>
     )
 }

@@ -1,13 +1,13 @@
+import { usePageRender } from "@/hooks/custom/usePageRender"
 import { useGetUser } from "@/hooks/user/useGetUser"
 import { signOut } from "next-auth/react"
 import Link from "next/link"
-import { useRouter } from "next/router"
 import React from "react"
 
 type Props = {}
 
 const HeaderDropdown = (props: Props) => {
-    const { pathname } = useRouter()
+    const { role } = usePageRender()
     const { data: user } = useGetUser()
 
     if (!user) return <></>
@@ -45,10 +45,10 @@ const HeaderDropdown = (props: Props) => {
                 <div className="divider my-0" />
                 {user.role === "USER" ? null : (
                     <li>
-                        {pathname.startsWith("/home") ? (
+                        {role === "USER" ? (
                             <Link href="/trainer">Switch to Trainer</Link>
                         ) : (
-                            <Link href="/home">Switch to User</Link>
+                            <Link href="/user">Switch to User</Link>
                         )}
                     </li>
                 )}

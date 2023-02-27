@@ -7,5 +7,6 @@ export type CompleteHabit = Habit & {
 export type GroupedHabit = {
     id: string
     title: string
+    isCustom: boolean
     habits: Habit[]
 }

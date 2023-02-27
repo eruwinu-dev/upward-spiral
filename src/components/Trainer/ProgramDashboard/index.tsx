@@ -48,7 +48,9 @@ const ProgramDashboard = (props: Props) => {
                     />
                 </>
             ) : (
-                <HabitDashboard habit={selectedHabit} />
+                <>
+                    <HabitDashboard habit={selectedHabit} />
+                </>
             )}
         </>
     )

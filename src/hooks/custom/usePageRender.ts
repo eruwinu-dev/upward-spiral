@@ -30,7 +30,7 @@ export const usePageRender = (): PageRender => {
             habit: habitQuery,
         },
     } = router
-    const role: Role = pathname.startsWith("/home") ? "USER" : "TRAINER"
+    const role: Role = pathname.startsWith("/user") ? "USER" : "TRAINER"
     const render: "static" | "dynamic" = pathname.endsWith("[...params]")
         ? "dynamic"
         : "static"
