@@ -18,7 +18,9 @@ export const getPrograms = async (userId: string, role: Role) => {
         include:
             role === "USER"
                 ? {
-                      trainees: false,
+                      trainees: {
+                          select: { trainee: true },
+                      },
                   }
                 : {
                       trainees: {
@@ -45,7 +47,9 @@ export const getProgram = async (userId: string, slug: string, role: Role) => {
         include:
             role === "USER"
                 ? {
-                      trainees: false,
+                      trainees: {
+                          select: { trainee: true },
+                      },
                   }
                 : {
                       trainees: {
