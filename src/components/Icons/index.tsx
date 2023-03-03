@@ -6,6 +6,7 @@ export const Icons = (prop: string | undefined) => {
         [
             "check",
             <svg
+                key="check"
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
@@ -19,6 +20,7 @@ export const Icons = (prop: string | undefined) => {
         [
             "stars",
             <svg
+                key="stars"
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
@@ -32,6 +34,7 @@ export const Icons = (prop: string | undefined) => {
         [
             "text",
             <svg
+                key="text"
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
@@ -45,6 +48,7 @@ export const Icons = (prop: string | undefined) => {
         [
             "number",
             <svg
+                key="number"
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
@@ -57,6 +61,7 @@ export const Icons = (prop: string | undefined) => {
         [
             "close",
             <svg
+                key="close"
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
@@ -69,6 +74,7 @@ export const Icons = (prop: string | undefined) => {
         [
             "vertical-dots",
             <svg
+                key="vertical-dots"
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
@@ -81,6 +87,7 @@ export const Icons = (prop: string | undefined) => {
         [
             "search",
             <svg
+                key="search"
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
                 fill="none"
@@ -98,6 +105,7 @@ export const Icons = (prop: string | undefined) => {
         [
             "chevron-left",
             <svg
+                key="chevron-left"
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
@@ -113,6 +121,7 @@ export const Icons = (prop: string | undefined) => {
         [
             "chevron-right",
             <svg
+                key="chevron-right"
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
@@ -128,6 +137,7 @@ export const Icons = (prop: string | undefined) => {
         [
             "plus",
             <svg
+                key="plus"
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
@@ -143,6 +153,7 @@ export const Icons = (prop: string | undefined) => {
         [
             "cross-circle",
             <svg
+                key="cross-circle"
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
@@ -156,6 +167,7 @@ export const Icons = (prop: string | undefined) => {
         [
             "check-mark",
             <svg
+                key="check-mark"
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
@@ -168,6 +180,7 @@ export const Icons = (prop: string | undefined) => {
         [
             "calendar-cross",
             <svg
+                key="calendar-cross"
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
@@ -181,6 +194,7 @@ export const Icons = (prop: string | undefined) => {
         [
             "calendar-check",
             <svg
+                key="calendar-check"
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
