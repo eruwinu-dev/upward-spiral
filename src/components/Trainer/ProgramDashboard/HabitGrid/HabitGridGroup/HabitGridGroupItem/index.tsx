@@ -1,11 +1,12 @@
 import { Icons } from "@/components/Icons"
 import { usePageRender } from "@/hooks/custom/usePageRender"
+import { HabitWithProgram } from "@/types/habit"
 import { getFrequencyString } from "@/utils/getFrequencyString"
-import { Habit, HabitMetric } from "@prisma/client"
+import { HabitMetric } from "@prisma/client"
 import React, { MouseEvent } from "react"
 
 type Props = {
-    habit: Habit
+    habit: HabitWithProgram
 }
 
 const metricIcons = new Map<HabitMetric, string>([
@@ -16,8 +17,7 @@ const metricIcons = new Map<HabitMetric, string>([
 ])
 
 const HabitGridGroupItem = ({ habit }: Props) => {
-    const { program, pathname, render, push, role, renderPath } =
-        usePageRender()
+    const { program, pathname, render, push, renderPath } = usePageRender()
 
     const openHabitHandler = (event: MouseEvent<HTMLDivElement>) => {
         push(

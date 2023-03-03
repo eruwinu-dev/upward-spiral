@@ -1,10 +1,14 @@
+import prisma from "@/lib/prisma"
+
 import { Role } from "@prisma/client"
 
-export const getHabits = async (
-    userId: string,
-    programId: string,
+export type GetHabitData = {
+    userId: string
+    programId: string
     role: Role
-) => {
+}
+
+export const getHabits = async ({ userId, programId, role }: GetHabitData) => {
     const sortedHabits = await prisma.habitType.findMany({
         where: role === "USER" ? {} : { isCustom: false },
         select: {

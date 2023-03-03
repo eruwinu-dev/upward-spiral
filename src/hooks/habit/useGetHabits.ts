@@ -7,7 +7,7 @@ import { useGetUser } from "../user/useGetUser"
 export const useGetHabits = () => {
     const { data: user } = useGetUser()
     const { data: program } = useGetProgram()
-    const { role, week } = usePageRender()
+    const { role } = usePageRender()
 
     return useQuery<GroupedHabit[], Error>({
         queryKey: [

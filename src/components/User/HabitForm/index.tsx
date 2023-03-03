@@ -26,7 +26,7 @@ const HabitForm = ({ form }: Props) => {
         role,
         program,
         habit: slug,
-        push,
+        push,   
         render,
         renderPath,
         pathname,

@@ -11,7 +11,6 @@ export type HabitWithProgram = Habit & {
 export type GroupedHabit = {
     id: string
     title: string
-    createdAt: Date
     isCustom: boolean
     habits: HabitWithProgram[]
 }
