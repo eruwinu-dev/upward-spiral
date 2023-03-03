@@ -1,7 +1,13 @@
 import prisma from "@/lib/prisma"
 import { Role } from "@prisma/client"
 
-export const getPrograms = async (userId: string, role: Role) => {
+export type GetProgramData = {
+    userId: string
+    slug?: string
+    role: Role
+}
+
+export const getPrograms = async ({ userId, role }: GetProgramData) => {
     const programs = await prisma.program.findMany({
         where:
             role === "USER"
@@ -31,7 +37,7 @@ export const getPrograms = async (userId: string, role: Role) => {
     return programs
 }
 
-export const getProgram = async (userId: string, slug: string, role: Role) => {
+export const getProgram = async ({ userId, slug, role }: GetProgramData) => {
     const program = await prisma.program.findFirst({
         where:
             role === "USER"

@@ -10,9 +10,10 @@ export const useGetPrograms = () => {
     return useQuery<CompleteProgram[], Error>({
         queryKey: [role.toLocaleLowerCase(), "programs"],
         queryFn: async () => {
-            const result = await fetch(`/api/program/${user?.id}/${role}`, {
-                method: "GET",
+            const result = await fetch("/api/program/get/all", {
+                method: "POST",
                 headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ userId: user?.id, role }),
             })
             const { programs } = await result.json()
             return programs

@@ -6,6 +6,7 @@ export type GetHabitData = {
     userId: string
     programId: string
     role: Role
+    habitSlug?: string
 }
 
 export const getHabits = async ({ userId, programId, role }: GetHabitData) => {
@@ -34,12 +35,12 @@ export const getHabits = async ({ userId, programId, role }: GetHabitData) => {
     return sortedHabits
 }
 
-export const getHabit = async (
-    userId: string,
-    programId: string,
-    habitSlug: string,
-    role: Role
-) => {
+export const getHabit = async ({
+    userId,
+    programId,
+    role,
+    habitSlug,
+}: GetHabitData) => {
     const habit = await prisma.habit.findFirst({
         where:
             role === "USER"

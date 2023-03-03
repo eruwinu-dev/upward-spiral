@@ -31,7 +31,7 @@ export const useEditHabit = () => {
     const { data: user } = useGetUser()
 
     return useMutation({
-        mutationKey: ["delete-program"],
+        mutationKey: ["edit-habit"],
         mutationFn: (data: HabitSchema) =>
             editHabit(data, program?.id, habit, user?.id),
         onSuccess: () =>

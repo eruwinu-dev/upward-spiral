@@ -17,7 +17,7 @@ export const useGetHabits = () => {
             "habits",
         ],
         queryFn: async () => {
-            const result = await fetch(`/api/habit/get`, {
+            const result = await fetch(`/api/habit/get/all`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -26,8 +26,8 @@ export const useGetHabits = () => {
                     role,
                 }),
             })
-            const { habits } = await result.json()
-            return habits
+            const { groups } = await result.json()
+            return groups
         },
         enabled: !!user?.id && !!program?.id,
         refetchOnWindowFocus: false,

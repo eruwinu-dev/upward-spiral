@@ -8,12 +8,12 @@ export const addProgram = async (
     data: ProgramSchema,
     trainerId: string | undefined
 ) => {
-    const { newProgram } = await fetcher(
+    const { program } = await fetcher(
         "/api/program/add",
         "POST",
         JSON.stringify({ ...data, slug: slugify(data.name), trainerId })
     )
-    return newProgram
+    return program
 }
 
 export const useAddProgram = () => {

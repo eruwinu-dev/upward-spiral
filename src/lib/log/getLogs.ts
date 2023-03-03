@@ -68,7 +68,5 @@ export const getLog = async ({
         },
     })
 
-    console.log(formattedLog)
-
     return formattedLog
 }

@@ -7,8 +7,6 @@ type Data = {
 const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
     const { createdAt, week, day } = req.body
 
-    console.log(createdAt, week, day)
-
     res.status(200).json({ check: false })
 }
 
