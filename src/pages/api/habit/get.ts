@@ -1,14 +1,17 @@
+import { getHabits } from "@/lib/habit/getHabits"
+import { GroupedHabit } from "@/types/habit"
+import { Role } from "@prisma/client"
 import type { NextApiRequest, NextApiResponse } from "next"
 
-
-type Data = {}
+type Data = {
+    habits: GroupedHabit[]
+}
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-    const { programId, habitSlug } = req.body
+    const { userId, programId, role } = req.body
 
-    const habit = await 
-
-    res.status(200).json({ date: "" })
+    const habits = await getHabits(userId, programId, role as Role)
+    res.status(200).json({ habits: habits as GroupedHabit[] })
 }
 
 export default handler

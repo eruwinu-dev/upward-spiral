@@ -54,7 +54,12 @@ export const usePageRender = (): PageRender => {
             : values[6] === "day"
             ? values[7]
             : undefined
-    const habitParams = values[2] === "habit" ? values[3] : undefined
+    const habitParams =
+        values[2] === "habit"
+            ? values[3]
+            : values[6] === "habit"
+            ? values[7]
+            : undefined
 
     const program =
         render === "static" ? (programQuery as string) : programParams
@@ -67,7 +72,8 @@ export const usePageRender = (): PageRender => {
         `${program ? `/program/${program}` : ""}` +
         (role === "TRAINER" ? `${habit ? `/habit/${habit}` : ""}` : "") +
         (role !== "TRAINER" ? `${week ? `/week/${week}` : ""}` : "") +
-        (role !== "TRAINER" ? `${day ? `/day/${day}` : ""}` : "")
+        (role !== "TRAINER" ? `${day ? `/day/${day}` : ""}` : "") +
+        (role !== "TRAINER" ? `${habit ? `/habit/${habit}` : ""}` : "")
 
     return {
         ...router,

@@ -7,7 +7,7 @@ import { useGetUser } from "../user/useGetUser"
 export const useGetHabits = () => {
     const { data: user } = useGetUser()
     const { data: program } = useGetProgram()
-    const { role } = usePageRender()
+    const { role, week } = usePageRender()
 
     return useQuery<GroupedHabit[], Error>({
         queryKey: [
@@ -17,13 +17,15 @@ export const useGetHabits = () => {
             "habits",
         ],
         queryFn: async () => {
-            const result = await fetch(
-                `/api/habit/${program?.id}/${user?.id}/${role}`,
-                {
-                    method: "GET",
-                    headers: { "Content-Type": "application/json" },
-                }
-            )
+            const result = await fetch(`/api/habit/get`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    userId: user?.id,
+                    programId: program?.id,
+                    role,
+                }),
+            })
             const { habits } = await result.json()
             return habits
         },

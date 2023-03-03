@@ -4,6 +4,7 @@ import AddProgramDialog from "@/components/User/AddProgramDialog"
 import DeleteProgramDialog from "@/components/User/DeleteProgramDialog"
 import ProgramHabits from "@/components/User/ProgramHabits"
 import UserSideBar from "@/components/User/UserSideBar"
+import ViewLogDialog from "@/components/User/ViewLogDialog"
 import { getPrograms } from "@/lib/program/getPrograms"
 import { checkUser } from "@/utils/checkUser"
 import { dehydrate, QueryClient } from "@tanstack/react-query"
@@ -30,6 +31,7 @@ const Home = ({}: Props) => {
             </section>
             <AddProgramDialog />
             <AddHabitDialog />
+            <ViewLogDialog />
             <DeleteProgramDialog />
             <AddLogDialog />
         </>

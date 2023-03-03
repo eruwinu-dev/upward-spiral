@@ -1,8 +1,6 @@
 import { Icons } from "@/components/Icons"
-import useUserContext from "@/context/UserState"
 import { usePageRender } from "@/hooks/custom/usePageRender"
 import { CompleteProgram } from "@/types/program"
-import { UserDialog } from "@/types/user"
 import React, { MouseEvent } from "react"
 
 type Props = {
@@ -10,21 +8,16 @@ type Props = {
 }
 
 const UserTopBar = ({ program }: Props) => {
-    const { toggleDialog } = useUserContext()
-    const { push, pathname, render, renderPath } = usePageRender()
-
-    const openDialogHandler =
-        (prop: keyof UserDialog) => (event: MouseEvent<HTMLButtonElement>) =>
-            toggleDialog(prop)
+    const { push, role } = usePageRender()
 
     const closeWindowHandler = (event: MouseEvent<HTMLButtonElement>) => {
         if (!program) return
         push(
             {
-                pathname,
+                pathname: `/${role.toLowerCase()}`,
                 query: {},
             },
-            renderPath({}),
+            undefined,
             { shallow: true }
         )
     }

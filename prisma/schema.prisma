@@ -48,6 +48,7 @@ model User {
   habits            Habit[]
   programsAsTrainer Program[]
   programsAsTrainee ProgramsOnTrainee[]
+  logs              Log[]
 }
 
 model VerificationToken {
@@ -100,8 +101,8 @@ model Habit {
   habitType   HabitType?     @relation(fields: [habitTypeId], references: [id])
   creatorId   String?
   creator     User?          @relation(fields: [creatorId], references: [id], onDelete: Cascade)
-  programId   String?
-  program     Program?       @relation(fields: [programId], references: [id], onDelete: Cascade)
+  programId   String
+  program     Program        @relation(fields: [programId], references: [id], onDelete: Cascade)
 
   @@unique([programId, slug])
 }
@@ -121,6 +122,8 @@ model Log {
   createdAt DateTime @default(now())
   message   String
 
+  userId  String
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   habitId String
   habit   Habit  @relation(fields: [habitId], references: [id])
 }

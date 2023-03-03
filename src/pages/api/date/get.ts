@@ -1,21 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from "next"
-import { getDay, getWeek } from "date-fns"
+import { addDays, isToday } from "date-fns"
 
-type SafeDate = {
-    date: string
+type Data = {
+    isToday: Date
 }
-
-type Data = {}
 const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-    const { createdAt, week, day } = req.body
+    const { week, day, date } = req.body
 
-    if (!day) {
-        console.log("week view")
-    } else {
-        console.log("day view")
-    }
-
-    res.status(200).json({ date: "" })
+    res.status(200).json({ isToday: date })
 }
 
 export default handler

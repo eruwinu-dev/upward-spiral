@@ -1,5 +1,6 @@
 import BaseDialog from "@/components/BaseDialog"
 import useUserContext from "@/context/UserState"
+import { usePageRender } from "@/hooks/custom/usePageRender"
 import React from "react"
 import HabitForm from "../HabitForm"
 

@@ -26,7 +26,12 @@ const ProgramsList = (props: Props) => {
             push(
                 {
                     pathname,
-                    query: render === "static" ? { program: program.slug } : {},
+                    query:
+                        render === "static"
+                            ? role === "USER"
+                                ? { program: program.slug, week }
+                                : { program: program.slug }
+                            : {},
                 },
                 role === "USER"
                     ? renderPath({ program: program.slug, week })

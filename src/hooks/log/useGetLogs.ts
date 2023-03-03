@@ -1,41 +1,40 @@
-import { matchParams } from "@/utils/parameters"
-import { Log } from "@prisma/client"
+import { HabitWithProgram } from "@/types/habit"
+import { SortedLog } from "@/types/log"
 import { useQuery } from "@tanstack/react-query"
-import { useRouter } from "next/router"
-import { useGetProgram } from "../program/useGetProgram"
+import { usePageRender } from "../custom/usePageRender"
 import { useGetUser } from "../user/useGetUser"
 
-export const useGetLogs = () => {
-    const {
-        query: { params, week: paramsWeek },
-        pathname,
-    } = useRouter()
+export const useGetLogs = (habit: HabitWithProgram) => {
+    const { role, program, week } = usePageRender()
     const { data: user } = useGetUser()
-    const { data: program } = useGetProgram()
 
-    const paramsMap = matchParams(params)
-
-    const week = pathname.endsWith("[...params]")
-        ? paramsMap.get("week")
-        : paramsWeek
-
-    return useQuery<Record<string, Log[]>, Error>({
-        queryKey: ["user", "program", program?.slug, "habits", "logs", week],
+    return useQuery<SortedLog[], Error>({
+        queryKey: [
+            role.toLowerCase(),
+            "program",
+            program,
+            "week",
+            week,
+            "habit",
+            habit.slug,
+        ],
         queryFn: async () => {
             const result = await fetch(`/api/log/get`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
+                    id: habit.id,
                     userId: user?.id,
-                    programId: program?.id,
-                    createdAt: program?.createdAt,
-                    week,
+                    week: Number(week),
+                    startDate: habit.program.startDate,
+                    frequency: habit.frequency,
+                    repeatDay: habit.repeatDay,
                 }),
             })
             const { logs } = await result.json()
             return logs
         },
-        enabled: !!program?.id,
+        enabled: !!habit?.id,
         refetchOnWindowFocus: false,
     })
 }

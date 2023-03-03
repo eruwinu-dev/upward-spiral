@@ -1,5 +1,6 @@
 import BaseDialog from "@/components/BaseDialog"
 import useUserContext from "@/context/UserState"
+import { usePageRender } from "@/hooks/custom/usePageRender"
 import React from "react"
 import AddLogForm from "./AddLogForm"
 
@@ -12,17 +13,32 @@ const AddLogDialog = (props: Props) => {
         toggleAction,
         toggleDialog,
     } = useUserContext()
+    const { program, week, push, pathname, render, renderPath } =
+        usePageRender()
 
-    const toggleDeleteProgramDialogHandler = () => {
+    const toggleAddLogDialogHandler = () => {
         toggleDialog("addLog")
-        setTimeout(() => toggleAction("addLog", "IDLE"), 500)
+        setTimeout(() => {
+            toggleAction("addLog", "IDLE")
+            push(
+                {
+                    pathname,
+                    query: render === "static" ? { program, week } : {},
+                },
+                renderPath({
+                    program,
+                    week,
+                }),
+                { shallow: true }
+            )
+        }, 250)
     }
 
     return (
         <BaseDialog
             isOpen={addLogDialog}
-            closeOnBlur={addLogAction === "IDLE"}
-            onClose={toggleDeleteProgramDialogHandler}
+            closeOnBlur={addLogAction !== "LOADING"}
+            onClose={toggleAddLogDialogHandler}
             title="Add Log"
         >
             <div className="grid grid-cols-1 grid-flow-row gap-4">

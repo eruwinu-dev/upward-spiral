@@ -14,7 +14,7 @@ export const useGetHabit = () => {
             role.toLocaleLowerCase(),
             "program",
             program?.slug,
-            "habits",
+            "habit",
             slug,
         ],
         queryFn: async () => {
@@ -28,7 +28,7 @@ export const useGetHabit = () => {
             const { habit } = await result.json()
             return habit
         },
-        enabled: !!user?.id && !!program?.id && !!slug,
+        enabled: !!program?.id && !!slug,
         refetchOnWindowFocus: false,
     })
 }

@@ -11,6 +11,7 @@ export type UserDialog = {
     editHabit: boolean
     deleteHabit: boolean
     addLog: boolean
+    viewLog: boolean
     editLog: boolean
     deleteLog: boolean
     addTrainee: boolean
@@ -26,6 +27,7 @@ export type UserAction = {
     editHabit: ActionStatus
     deleteHabit: ActionStatus
     addLog: ActionStatus
+    viewLog: ActionStatus
     editLog: ActionStatus
     deleteLog: ActionStatus
     addTrainee: ActionStatus

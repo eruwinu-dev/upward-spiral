@@ -21,6 +21,9 @@ export const getHabits = async (
                               programId,
                               creatorId: userId,
                           },
+                include: {
+                    program: true,
+                },
             },
         },
     })

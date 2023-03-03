@@ -20,7 +20,7 @@ const HabitsCalendar = ({ groups }: Props) => {
     } = usePageRender()
     const { toggleDialog } = useUserContext()
 
-    const week = Number(weekString || 0)
+    const week = weekString ? Number(weekString) : 0
 
     const openAddHabitDialog = (event: MouseEvent<HTMLButtonElement>) =>
         toggleDialog("addHabit")
@@ -52,8 +52,8 @@ const HabitsCalendar = ({ groups }: Props) => {
                         Add
                     </button>
                 </div>
-                <div className="inline-flex items-center justify-end space-x-2">
-                    <h3 className="text-lg font-semibold">{`Week ${week}`}</h3>
+                <div className="inline-flex items-center justify-end space-x-4">
+                    <h3 className="text-md font-semibold">{`Week ${week}`}</h3>
                     <div className="btn-group">
                         <button
                             className="btn btn-sm btn-ghost btn-square"

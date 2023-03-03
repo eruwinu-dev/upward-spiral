@@ -19,9 +19,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
     } else if (req.method === "GET") {
         if (params) {
             if (params.length === 3) {
-                const [programId, userId, role] = params as string[]
-                const habits = await getHabits(userId, programId, role as Role)
-                res.status(200).json({ habits })
+                res.status(200).json({})
             } else if (params.length === 4) {
                 const [programId, userId, role, habitSlug] = params as string[]
                 const habit = await getHabit(
