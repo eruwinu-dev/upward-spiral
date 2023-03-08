@@ -17,8 +17,8 @@ const HabitViewLogs = ({ logs }: Props) => {
                 </tr>
             </thead>
             <tbody>
-                {logs.map((log) => (
-                    <tr>
+                {logs.map((log, index) => (
+                    <tr key={index}>
                         <td>{log.dateString}</td>
                         <td
                             className={[
