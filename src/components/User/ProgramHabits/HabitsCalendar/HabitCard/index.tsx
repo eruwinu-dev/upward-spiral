@@ -24,6 +24,7 @@ const HabitCard = ({ group: { title, habits } }: Props) => {
                                     {day}
                                 </td>
                             ))}
+                            <td>Score</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -32,7 +33,9 @@ const HabitCard = ({ group: { title, habits } }: Props) => {
                         ))}
                     </tbody>
                 </table>
-            ) : null}
+            ) : (
+                <div>No habits.</div>
+            )}
         </div>
     )
 }

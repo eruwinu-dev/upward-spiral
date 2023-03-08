@@ -8,7 +8,7 @@ import { useGetProgram } from "../program/useGetProgram"
 export const editHabit = async (
     data: HabitSchema,
     programId: string | undefined,
-    habitSlug: string | undefined,
+    slug: string | undefined,
     creatorId: string | undefined
 ) => {
     const { count } = await fetcher(
@@ -17,7 +17,6 @@ export const editHabit = async (
         JSON.stringify({
             ...data,
             programId,
-            slug: habitSlug,
             creatorId,
         })
     )

@@ -17,7 +17,7 @@ const HabitLog = ({
     dayNumber,
     sortedLog: { dateString, isToday, isLapsed, log },
 }: Props) => {
-    const { push, pathname, program, week, day, render, renderPath } =
+    const { push, pathname, program, week, render, renderPath } =
         usePageRender()
     const { toggleDialog } = useUserContext()
 
@@ -33,7 +33,12 @@ const HabitLog = ({
                     pathname,
                     query:
                         render === "static"
-                            ? { program, week, day, habit: habit.slug }
+                            ? {
+                                  program,
+                                  week,
+                                  day: dayNumber,
+                                  habit: habit.slug,
+                              }
                             : {},
                 },
                 renderPath({

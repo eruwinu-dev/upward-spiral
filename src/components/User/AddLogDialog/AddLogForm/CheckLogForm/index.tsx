@@ -1,12 +1,13 @@
 import useUserContext from "@/context/UserState"
-import { useGetHabit } from "@/hooks/habit/useGetHabit"
-import { addLog, useAddLog } from "@/hooks/log/useAddLog"
+import { useAddLog } from "@/hooks/log/useAddLog"
+import { Habit } from "@prisma/client"
 import React, { MouseEvent } from "react"
 
-type Props = {}
+type Props = {
+    habit: Habit
+}
 
-const CheckLogForm = (props: Props) => {
-    const { data: habit } = useGetHabit()
+const CheckLogForm = ({ habit }: Props) => {
     const { mutateAsync: mutateAddLog } = useAddLog()
     const {
         toggleDialog,
@@ -15,9 +16,11 @@ const CheckLogForm = (props: Props) => {
     } = useUserContext()
 
     const addLogHandler = async (event: MouseEvent<HTMLButtonElement>) => {
-        if (!habit) return
         toggleAction("addLog", "LOADING")
-        const log = await mutateAddLog({ message: "", habitId: habit.id })
+        const log = await mutateAddLog({
+            message: `${habit.metric} --- ${true}`,
+            habitId: habit.id,
+        })
         if (!log) return
         toggleAction("addLog", "SUCCESS")
     }
@@ -25,11 +28,12 @@ const CheckLogForm = (props: Props) => {
     const closeCheckLog = (event: MouseEvent<HTMLButtonElement>) =>
         toggleDialog("addLog")
 
-    if (!habit) return <></>
-
     return (
         <div className="grid grid-cols-1 grid-flow-row gap-4">
-            <p className="text-base">{habit.message}</p>
+            <div className="grid grid-cols-1 grid-flow-row gap-2">
+                <span className="text-sm font-semibold">Question</span>
+                <p className="text-base">{habit.message}</p>
+            </div>
             <div className="inline-flex items-center justify-end space-x-2">
                 <button
                     type="button"

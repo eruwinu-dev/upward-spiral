@@ -24,7 +24,7 @@ export const useGetLog = () => {
             "view",
         ],
         queryFn: async () => {
-            const result = await fetch(`/api/log/view`, {
+            const result = await fetch(`/api/log/get/one`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

@@ -73,7 +73,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     await queryClient.prefetchQuery({
         queryKey: ["trainer", "programs"],
-        queryFn: async () => await getPrograms(user.id, "TRAINER"),
+        queryFn: async () =>
+            await getPrograms({ userId: user.id, role: "TRAINER" }),
     })
 
     await queryClient.prefetchQuery({

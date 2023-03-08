@@ -1,8 +1,10 @@
 import BaseDialog from "@/components/BaseDialog"
+import Spinner from "@/components/Spinner"
 import useUserContext from "@/context/UserState"
 import { usePageRender } from "@/hooks/custom/usePageRender"
 import { useGetLog } from "@/hooks/log/useGetLog"
 import React from "react"
+import LogAnswer from "./LogAnswer"
 
 type Props = {}
 
@@ -14,7 +16,13 @@ const ViewLogDialog = (props: Props) => {
         toggleDialog,
     } = useUserContext()
 
-    const { data: log } = useGetLog()
+    const { data: log, isLoading } = useGetLog()
+
+    const title = isLoading
+        ? "Loading..."
+        : log && log?.log
+        ? "View Log"
+        : "Missed Log"
 
     const toggleViewLogDialogHandler = () => {
         toggleDialog("viewLog")
@@ -37,33 +45,34 @@ const ViewLogDialog = (props: Props) => {
         <BaseDialog
             isOpen={viewLogDialog}
             onClose={toggleViewLogDialogHandler}
-            title="View Log"
+            title={title}
         >
-            <div className="grid grid-cols-1 grid-flow-row gap-2">
+            <div className="grid grid-cols-1 grid-flow-row gap-4">
+                {isLoading ? (
+                    <div className="inline-flex items-center justify-center p-4">
+                        <Spinner />
+                    </div>
+                ) : null}
                 {log ? (
                     <>
-                        <div className="inline-flex items-center justify-start space-x-2">
-                            <span className="font-semibold">Question: </span>
+                        <div className="grid grid-cols-1 grid-flow-row gap-2">
+                            <span className="text-sm font-semibold">Task</span>
                             <span>{log.message}</span>
                         </div>
-                        {log.logs.length ? (
-                            <div className="grid grid-cols-1 grid-flow-row gap-2 place-items-start">
-                                <span className="text-sm font-semibold">
-                                    Your answer:
-                                </span>
-                                <span>{log.logs[0].message}</span>
-                            </div>
+                        {log.log ? (
+                            <LogAnswer log={log.log} />
                         ) : (
-                            <div className="inline-flex items-center justify-center">
-                                <span className="text-error">
-                                    You failed to log this habit.
+                            <div className="grid grid-cols-1 grid-flow-row gap-2">
+                                <span className="text-sm font-semibold">
+                                    Status
+                                </span>
+                                <span className="badge badge-lg badge-error font-semibold">
+                                    No log
                                 </span>
                             </div>
                         )}
                     </>
-                ) : (
-                    <div></div>
-                )}
+                ) : null}
             </div>
         </BaseDialog>
     )

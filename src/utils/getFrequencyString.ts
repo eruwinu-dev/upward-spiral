@@ -8,7 +8,7 @@ export const getFrequencyString = (
     if (["WEEKLY", "BIWEEKLY"].includes(frequency) && !repeatDay) return ""
     if (frequency === "DAILY") return "Daily"
     if (frequency === "WEEKLY")
-        return `Every ${daysOfWeek[repeatDay as number]}`
+        return `Every ${daysOfWeek[(repeatDay as number) - 1]}`
     if (frequency === "BIWEEKLY")
-        return `Every other ${daysOfWeek[repeatDay as number]}`
+        return `Every other ${daysOfWeek[(repeatDay as number) - 1]}`
 }

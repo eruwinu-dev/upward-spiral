@@ -45,4 +45,6 @@ export interface UserContextType {
     toggleProgramView: (view: ProgramView) => void
     selectedUserId: string | null
     selectUser: (userId: string | null) => void
+    selectedHabitSlug: string | null
+    selectHabit: (slug: string | null) => void
 }

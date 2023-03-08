@@ -6,6 +6,7 @@ type Params = {
     week?: string
     day?: string
     habit?: string
+    view?: string
 }
 
 export interface PageRender extends NextRouter {
@@ -16,6 +17,7 @@ export interface PageRender extends NextRouter {
     week?: string
     day?: string
     habit?: string
+    view?: string
 }
 
 export const usePageRender = (): PageRender => {
@@ -28,6 +30,7 @@ export const usePageRender = (): PageRender => {
             week: weekQuery,
             day: dayQuery,
             habit: habitQuery,
+            view: viewQuery,
         },
     } = router
     const role: Role = pathname.startsWith("/user") ? "USER" : "TRAINER"
@@ -60,20 +63,23 @@ export const usePageRender = (): PageRender => {
             : values[6] === "habit"
             ? values[7]
             : undefined
+    const viewParams = values[8] === "view" ? values[9] : undefined
 
     const program =
         render === "static" ? (programQuery as string) : programParams
     const week = render === "static" ? (weekQuery as string) : weekParams
     const day = render === "static" ? (dayQuery as string) : dayParams
     const habit = render === "static" ? (habitQuery as string) : habitParams
+    const view = render === "static" ? (viewQuery as string) : viewParams
 
-    const renderPath = ({ program, week, day, habit }: Params) =>
+    const renderPath = ({ program, week, day, habit, view }: Params) =>
         `/${role.toLowerCase()}` +
         `${program ? `/program/${program}` : ""}` +
         (role === "TRAINER" ? `${habit ? `/habit/${habit}` : ""}` : "") +
         (role !== "TRAINER" ? `${week ? `/week/${week}` : ""}` : "") +
         (role !== "TRAINER" ? `${day ? `/day/${day}` : ""}` : "") +
-        (role !== "TRAINER" ? `${habit ? `/habit/${habit}` : ""}` : "")
+        (role !== "TRAINER" ? `${habit ? `/habit/${habit}` : ""}` : "") +
+        (role !== "TRAINER" ? `${view ? `/view/${view}` : ""}` : "")
 
     return {
         ...router,
@@ -84,5 +90,6 @@ export const usePageRender = (): PageRender => {
         week,
         day,
         habit,
+        view,
     }
 }

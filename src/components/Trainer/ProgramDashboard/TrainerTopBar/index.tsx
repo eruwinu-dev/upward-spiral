@@ -1,19 +1,19 @@
 import { Icons } from "@/components/Icons"
 import useUserContext from "@/context/UserState"
 import { usePageRender } from "@/hooks/custom/usePageRender"
+import { HabitWithProgram } from "@/types/habit"
 import { CompleteProgram } from "@/types/program"
 import { UserDialog } from "@/types/user"
-import { Habit } from "@prisma/client"
 import React, { MouseEvent } from "react"
 
 type Props = {
     program: CompleteProgram
-    habit?: Habit
+    habit?: HabitWithProgram
 }
 
 const TrainerTopBar = ({ program, habit }: Props) => {
     const { toggleDialog } = useUserContext()
-    const { push, pathname, render, renderPath, role } = usePageRender()
+    const { push, pathname, render, renderPath } = usePageRender()
 
     const toggleDialogHandler =
         (prop: keyof UserDialog) =>
@@ -78,14 +78,28 @@ const TrainerTopBar = ({ program, habit }: Props) => {
                         className="dropdown-content menu p-2 shadow bg-white rounded-box w-52 text-sm"
                     >
                         {habit ? (
-                            <li>
-                                <a
-                                    className="focus:bg-white"
-                                    onClick={toggleDialogHandler("deleteHabit")}
-                                >
-                                    Delete Habit
-                                </a>
-                            </li>
+                            <>
+                                <li>
+                                    <a
+                                        className="focus:bg-white"
+                                        onClick={toggleDialogHandler(
+                                            "editHabit"
+                                        )}
+                                    >
+                                        Edit Habit
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        className="focus:bg-white"
+                                        onClick={toggleDialogHandler(
+                                            "deleteHabit"
+                                        )}
+                                    >
+                                        Delete Habit
+                                    </a>
+                                </li>
+                            </>
                         ) : (
                             <>
                                 <li>

@@ -50,7 +50,13 @@ export const UserProvider = ({ children }: Props) => {
 
     const [selectedUserId, setSelectedUserId] = useState<string | null>(null)
 
+    const [selectedHabitSlug, setSelectedHabitSlug] = useState<string | null>(
+        null
+    )
+
     const selectUser = (userId: string | null) => setSelectedUserId(userId)
+
+    const selectHabit = (slug: string | null) => setSelectedHabitSlug(slug)
 
     const toggleProgramOrder = (order: ProgramOrder) => setProgramOrder(order)
 
@@ -78,6 +84,8 @@ export const UserProvider = ({ children }: Props) => {
         toggleProgramOrder,
         selectedUserId,
         selectUser,
+        selectedHabitSlug,
+        selectHabit,
     }
 
     return <UserContext.Provider value={value}>{children}</UserContext.Provider>

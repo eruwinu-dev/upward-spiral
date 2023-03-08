@@ -24,8 +24,29 @@ export type LogWithHabit = Log & {
     habit: Habit
 }
 
-export type FormattedLog = {
-    slug: string
+export type SimpleLog = {
+    id: string
     message: string
+    createdAt: string
+}
+
+export type FormattedLog = {
+    habitSlug: string
+    message: string
+    log?: SimpleLog
+}
+
+export type StatusLogs = {
     logs: Log[]
+    lapsed: number
+    total: number
+    dates: Date[]
+    logsByDate: StatusLog[]
+}
+
+export type StatusLog = {
+    date: Date
+    dateString: string
+    isToday: boolean
+    log?: Log
 }

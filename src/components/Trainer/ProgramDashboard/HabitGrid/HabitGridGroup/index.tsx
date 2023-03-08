@@ -15,9 +15,13 @@ const HabitGridGroup = ({ group: { title, habits } }: Props) => {
                 </h2>
             </div>
             <div className="w-full grid grid-cols-3 grid-flow-row gap-4">
-                {habits.map((habit) => (
-                    <HabitGridGroupItem key={habit.id} habit={habit} />
-                ))}
+                {habits.length ? (
+                    habits.map((habit) => (
+                        <HabitGridGroupItem key={habit.id} habit={habit} />
+                    ))
+                ) : (
+                    <span>No habits.</span>
+                )}
             </div>
         </div>
     )

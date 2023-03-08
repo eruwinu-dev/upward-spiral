@@ -45,11 +45,18 @@ const DeleteTraineeDialog = (props: Props) => {
             onClose={toggleAddProgramDialogHandler}
             title="Remove Trainee"
         >
-            <div className="grid grid-cols-1 grid-flow-row gap-4 p-4">
+            <div className="grid grid-cols-1 grid-flow-row gap-4 py-2">
                 {deleteTraineeAction !== "SUCCESS" ? (
                     trainee ? (
                         <>
-                            <span>{`Once ${trainee.name} is removed from this program, all logs made by the trainee will be removed.`}</span>
+                            <span className="text-justify">
+                                Once
+                                <span className="font-semibold">
+                                    {` ${trainee.name} `}
+                                </span>
+                                is removed from this program, all logs made by
+                                the trainee will be removed.
+                            </span>
                             <div className="w-full inline-flex items-center justify-end space-x-2">
                                 <button
                                     type="button"

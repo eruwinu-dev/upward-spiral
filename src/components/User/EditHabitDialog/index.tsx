@@ -23,7 +23,7 @@ const EditHabitDialog = (props: Props) => {
             isOpen={editHabitDialog}
             onClose={toggleeditHabitDialogHandler}
             title="Edit Habit"
-            size={editHabitAction !== "SUCCESS" ? "max-w-4xl" : "max-w-md"}
+            size={editHabitAction !== "SUCCESS" ? "max-w-md" : "max-w-md"}
         >
             <div className="grid grid-cols-1 grid-flow-row gap-4">
                 {editHabitAction !== "SUCCESS" ? (

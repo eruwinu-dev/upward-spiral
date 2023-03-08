@@ -1,21 +1,24 @@
-import { z } from "zod"
+import { HabitFrequency, HabitMetric } from "@prisma/client"
 
 export const frequencies = ["DAILY", "WEEKLY", "BIWEEKLY", "CUSTOM"] as const
 
 export const metrics = ["RATING", "NUMBER", "MESSAGE", "CHECK"] as const
 
-export const habitSchema = z.object({
-    title: z.string().min(1, { message: "Required" }),
-    message: z.string().min(1, { message: "Required" }),
-    metric: z.enum(metrics, {
-        errorMap: () => ({ message: "Required" }),
-    }),
-    habitTypeId: z.string().min(1, { message: "Required" }),
-    repeatDay: z.coerce.number().optional(),
-    duration: z.coerce.number().optional(),
-    frequency: z.enum(frequencies, {
-        errorMap: () => ({ message: "Required" }),
-    }),
-})
+export type HabitSchema = {
+    title?: string
+    message?: string
+    metric?: HabitMetric | ""
+    habitTypeId?: string
+    frequency?: HabitFrequency | ""
+    repeatDay?: number | ""
+    duration?: number | ""
+}
 
-export type HabitSchema = z.infer<typeof habitSchema>
+export type HabitSchemaIndices =
+    | "title"
+    | "message"
+    | "metric"
+    | "habitTypeId"
+    | "frequency"
+    | "repeatDay"
+    | "duration"

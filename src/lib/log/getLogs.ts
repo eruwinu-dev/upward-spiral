@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma"
-import { HabitFrequency } from "@prisma/client"
-import { addDays, addWeeks, set } from "date-fns"
+import { Habit, HabitFrequency } from "@prisma/client"
+import { addDays, addWeeks } from "date-fns"
+import { toDateTimeString } from "@/utils/dates"
 
 export type GetLogsData = {
     id: string
@@ -19,7 +20,31 @@ export type GetLogData = {
     startDate: Date
 }
 
-export const getLogs = async ({ id, userId, week, startDate }: GetLogsData) => {
+export type GetLogByHabitData = {
+    userId: string
+    habitId: string
+    startDate?: Date
+    frequency?: HabitFrequency
+    repeatDay?: number
+    duration?: number
+}
+
+export const getLogsByHabit = async ({
+    userId,
+    habitId,
+}: GetLogByHabitData) => {
+    const logs = await prisma.log.findMany({
+        where: { habitId, userId },
+    })
+    return logs
+}
+
+export const getLogsByWeek = async ({
+    id,
+    userId,
+    week,
+    startDate,
+}: GetLogsData) => {
     const logs = await prisma.log.findMany({
         where: {
             habitId: id,
@@ -40,16 +65,12 @@ export const getLog = async ({
     day,
     startDate,
 }: GetLogData) => {
-    const lowerBoundDate = set(
-        addDays(new Date(startDate), (week - 1) * 7 + (day - 1)),
-        { hours: 0, minutes: 0, seconds: 0 }
-    )
-    const upperBoundDate = set(
-        addDays(new Date(startDate), (week - 1) * 7 + (day - 1)),
-        { hours: 23, minutes: 59, seconds: 59 }
-    )
+    const date = addDays(new Date(startDate), (week - 1) * 7 + (day - 1))
 
-    const formattedLog = await prisma.habit.findFirst({
+    const lowerBoundDate = date
+    const upperBoundDate = addDays(date, 1)
+
+    const log = await prisma.habit.findFirst({
         where: {
             slug: habitSlug,
         },
@@ -57,16 +78,39 @@ export const getLog = async ({
             slug: true,
             message: true,
             logs: {
+                take: 1,
                 where: {
                     userId,
                     createdAt: {
-                        lte: upperBoundDate,
                         gte: lowerBoundDate,
+                        lt: upperBoundDate,
                     },
                 },
             },
         },
     })
+
+    const selectedLog = log
+        ? log.logs.length
+            ? log.logs[0]
+            : undefined
+        : undefined
+
+    const formattedLog = log
+        ? {
+              habitSlug: log.slug,
+              message: log.message,
+              log: selectedLog
+                  ? {
+                        id: selectedLog.id,
+                        message: selectedLog.message,
+                        createdAt: toDateTimeString(
+                            new Date(selectedLog.createdAt)
+                        ),
+                    }
+                  : undefined,
+          }
+        : null
 
     return formattedLog
 }

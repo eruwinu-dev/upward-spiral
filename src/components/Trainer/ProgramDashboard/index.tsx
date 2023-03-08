@@ -1,3 +1,4 @@
+import Spinner from "@/components/Spinner"
 import { usePageRender } from "@/hooks/custom/usePageRender"
 import { useGetHabits } from "@/hooks/habit/useGetHabits"
 import { useGetProgram } from "@/hooks/program/useGetProgram"
@@ -10,7 +11,7 @@ import TrainerTopBar from "./TrainerTopBar"
 type Props = {}
 
 const ProgramDashboard = (props: Props) => {
-    const { habit: habitSlug } = usePageRender()
+    const { habit: habitSlug, program: programSlug } = usePageRender()
 
     const { data: program } = useGetProgram()
     const { data: groups, isLoading } = useGetHabits()
@@ -24,15 +25,20 @@ const ProgramDashboard = (props: Props) => {
             : undefined
         : undefined
 
-    if (isLoading) return <></>
-
-    if (!program || !groups)
+    if (!programSlug)
         return (
             <>
-                <div className="w-full aspect-video grid grid-cols-1 grid-flow-row place-items-center place-content-center gap-4 col-span-12">
+                <div className="w-full grid grid-cols-1 grid-flow-row place-items-center place-content-center gap-4 col-span-12">
                     <div>No program selected.</div>
                 </div>
             </>
+        )
+
+    if (!program || !groups || isLoading)
+        return (
+            <div className="w-full grid grid-cols-1 grid-flow-row place-items-center place-content-center gap-4 col-span-12">
+                <Spinner />
+            </div>
         )
 
     return (

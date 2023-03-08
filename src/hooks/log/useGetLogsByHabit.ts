@@ -1,14 +1,14 @@
 import { HabitWithProgram } from "@/types/habit"
-import { SortedLog } from "@/types/log"
+import { StatusLogs } from "@/types/log"
 import { useQuery } from "@tanstack/react-query"
 import { usePageRender } from "../custom/usePageRender"
 import { useGetUser } from "../user/useGetUser"
 
-export const useGetLogs = (habit: HabitWithProgram) => {
+export const useGetLogsByHabit = (habit: HabitWithProgram) => {
     const { role, program, week } = usePageRender()
     const { data: user } = useGetUser()
 
-    return useQuery<SortedLog[], Error>({
+    return useQuery<StatusLogs, Error>({
         queryKey: [
             role.toLowerCase(),
             "program",
@@ -17,22 +17,24 @@ export const useGetLogs = (habit: HabitWithProgram) => {
             week,
             "habit",
             habit.slug,
+            "logs",
+            "view",
         ],
         queryFn: async () => {
-            const result = await fetch(`/api/log/get`, {
+            const result = await fetch(`/api/log/get/all`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    id: habit.id,
+                    habitId: habit.id,
                     userId: user?.id,
-                    week: Number(week),
                     startDate: habit.program.startDate,
                     frequency: habit.frequency,
                     repeatDay: habit.repeatDay,
+                    duration: habit.duration,
                 }),
             })
-            const { logs } = await result.json()
-            return logs
+            const data = await result.json()
+            return data
         },
         enabled: !!habit?.id,
         refetchOnWindowFocus: false,

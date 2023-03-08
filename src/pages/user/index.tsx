@@ -1,10 +1,12 @@
 import AddHabitDialog from "@/components/User/AddHabitDialog"
 import AddLogDialog from "@/components/User/AddLogDialog"
 import AddProgramDialog from "@/components/User/AddProgramDialog"
+import DeleteHabitDialog from "@/components/User/DeleteHabitDialog"
 import DeleteProgramDialog from "@/components/User/DeleteProgramDialog"
 import ProgramHabits from "@/components/User/ProgramHabits"
 import UserSideBar from "@/components/User/UserSideBar"
 import ViewLogDialog from "@/components/User/ViewLogDialog"
+import { getHabits } from "@/lib/habit/getHabits"
 import { getPrograms } from "@/lib/program/getPrograms"
 import { checkUser } from "@/utils/checkUser"
 import { dehydrate, QueryClient } from "@tanstack/react-query"
@@ -33,6 +35,7 @@ const Home = ({}: Props) => {
             <AddHabitDialog />
             <ViewLogDialog />
             <DeleteProgramDialog />
+            <DeleteHabitDialog />
             <AddLogDialog />
         </>
     )
@@ -52,6 +55,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     const queryClient = new QueryClient()
 
+    const programs = await getPrograms({ userId: user.id, role: "USER" })
+
     await queryClient.prefetchQuery({
         queryKey: ["user"],
         queryFn: async () => user,
@@ -59,8 +64,20 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     await queryClient.prefetchQuery({
         queryKey: ["user", "programs"],
-        queryFn: async () => await getPrograms(user.id, "USER"),
+        queryFn: async () => programs,
     })
+
+    if (programs.length) {
+        await queryClient.prefetchQuery({
+            queryKey: ["user", "program", programs[0].slug, "habits"],
+            queryFn: async () =>
+                getHabits({
+                    userId: user.id,
+                    programId: programs[0].id,
+                    role: "USER",
+                }),
+        })
+    }
 
     return {
         props: {

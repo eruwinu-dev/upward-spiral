@@ -24,7 +24,7 @@ const AddHabitDialog = (props: Props) => {
             isOpen={addHabitDialog}
             onClose={toggleaddHabitDialogHandler}
             title="Add Habit"
-            size={addHabitAction !== "SUCCESS" ? "max-w-4xl" : "max-w-md"}
+            size={addHabitAction !== "SUCCESS" ? "max-w-md" : "max-w-md"}
         >
             <div className="grid grid-cols-1 grid-flow-row gap-4">
                 {addHabitAction !== "SUCCESS" ? (

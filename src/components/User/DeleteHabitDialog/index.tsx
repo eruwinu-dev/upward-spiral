@@ -7,7 +7,7 @@ import React, { MouseEvent } from "react"
 type Props = {}
 
 const DeleteHabitDialog = (props: Props) => {
-    const { push, habit, pathname, render, program, renderPath } =
+    const { role, week, push, habit, pathname, render, program, renderPath } =
         usePageRender()
     const {
         dialog: { deleteHabit: deleteHabitDialog },
@@ -33,9 +33,14 @@ const DeleteHabitDialog = (props: Props) => {
             push(
                 {
                     pathname,
-                    query: render === "static" ? { program } : {},
+                    query:
+                        render === "static"
+                            ? role === "USER"
+                                ? { program, week }
+                                : { program }
+                            : {},
                 },
-                renderPath({ program }),
+                renderPath(role === "USER" ? { program, week } : { program }),
                 { shallow: true }
             )
         }, 250)
