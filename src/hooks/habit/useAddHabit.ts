@@ -16,7 +16,7 @@ export const addHabit = async (
         "POST",
         JSON.stringify({
             ...data,
-            slug: slugify(data.title),
+            slug: slugify(data.title as string),
             programId,
             creatorId,
         })
