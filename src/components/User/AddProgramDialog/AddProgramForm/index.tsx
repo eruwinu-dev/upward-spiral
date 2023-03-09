@@ -139,7 +139,6 @@ const AddProgramForm = (props: Props) => {
                                 onChange={(date: Date) => field.onChange(date)}
                                 filterDate={(date) => date.getDay() === 1}
                                 selected={field.value}
-                                calendarStartDay={1}
                             />
                         )}
                     />

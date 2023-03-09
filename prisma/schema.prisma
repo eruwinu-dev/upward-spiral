@@ -66,8 +66,8 @@ model Program {
   slug        String
   description String
   type        ProgramType         @default(CUSTOM)
-  createdAt   DateTime            @default(now())
-  startDate   DateTime            @default(now()) @db.Date
+  createdAt   DateTime            @default(now()) @db.Timestamptz(3)
+  startDate   DateTime            @db.Timestamptz(3)
   habits      Habit[]
   trainerId   String?
   trainer     User?               @relation(fields: [trainerId], references: [id], onDelete: SetNull)
@@ -78,9 +78,9 @@ model Program {
 
 model ProgramsOnTrainee {
   programId String
-  program   Program  @relation(fields: [programId], references: [id])
+  program   Program  @relation(fields: [programId], references: [id], onDelete: Cascade)
   traineeId String
-  trainee   User     @relation(fields: [traineeId], references: [id])
+  trainee   User     @relation(fields: [traineeId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
 
   @@unique([programId, traineeId])
@@ -125,7 +125,7 @@ model Log {
   userId  String
   user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   habitId String
-  habit   Habit  @relation(fields: [habitId], references: [id])
+  habit   Habit  @relation(fields: [habitId], references: [id], onDelete: Cascade)
 }
 
 enum Role {

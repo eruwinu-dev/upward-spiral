@@ -11,11 +11,8 @@ const HabitViewLogAnswer = ({ message }: Props) => {
 
     return (
         <div className="inline-flex items-center justify-center space-x-4">
-            {type === "CHECK" ? (
-                <span className="badge badge-lg badge-success font-semibold">
-                    Accomplished
-                </span>
-            ) : type === "MESSAGE" || type === "NUMBER" ? (
+            {type === "CHECK" ? null : type === "MESSAGE" ||
+              type === "NUMBER" ? (
                 <span>{answer}</span>
             ) : type === "RATING" ? (
                 <div className="rating rating-md">

@@ -1,5 +1,5 @@
 import { HabitWithProgram } from "@/types/habit"
-import { StatusLogs } from "@/types/log"
+import { LogSummary } from "@/types/log"
 import { useQuery } from "@tanstack/react-query"
 import { usePageRender } from "../custom/usePageRender"
 import { useGetUser } from "../user/useGetUser"
@@ -8,7 +8,7 @@ export const useGetLogsByHabit = (habit: HabitWithProgram) => {
     const { role, program, week } = usePageRender()
     const { data: user } = useGetUser()
 
-    return useQuery<StatusLogs, Error>({
+    return useQuery<LogSummary, Error>({
         queryKey: [
             role.toLowerCase(),
             "program",

@@ -1,4 +1,5 @@
 import BaseDialog from "@/components/BaseDialog"
+import { Icons } from "@/components/Icons"
 import useUserContext from "@/context/UserState"
 import { signIn } from "next-auth/react"
 import React, { MouseEvent } from "react"
@@ -36,10 +37,11 @@ const SignInDialog = (props: Props) => {
                     </p>
                     <button
                         type="button"
-                        className="btn btn-ghost btn-wide hover:bg-white border-2 border-black/50 hover:border-black capitalize"
+                        className="btn btn-ghost w-full px-3 rounded-lg bg-base-200 inline-flex items-center justify-center font-semibold space-x-4"
                         onClick={signInHandler}
                     >
-                        Sign In with Google
+                        {Icons("google")}
+                        <span>Sign in with Google</span>
                     </button>
                 </div>
             </div>

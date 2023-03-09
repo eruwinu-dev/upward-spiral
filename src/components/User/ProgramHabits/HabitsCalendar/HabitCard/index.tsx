@@ -1,7 +1,7 @@
 import { GroupedHabit } from "@/types/habit"
 import React from "react"
 
-import { daysOfWeek } from "@/utils/dates"
+import { dayShorts, daysOfWeek } from "@/utils/dates"
 import HabitRow from "./HabitRow"
 
 type Props = {
@@ -19,7 +19,7 @@ const HabitCard = ({ group: { title, habits } }: Props) => {
                     <thead>
                         <tr>
                             <td>Habit</td>
-                            {daysOfWeek.map((day) => (
+                            {dayShorts.map((day) => (
                                 <td key={day} className="text-center">
                                     {day}
                                 </td>

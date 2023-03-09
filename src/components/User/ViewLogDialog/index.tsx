@@ -9,7 +9,7 @@ import LogAnswer from "./LogAnswer"
 type Props = {}
 
 const ViewLogDialog = (props: Props) => {
-    const { program, week, render, renderPath, push, pathname } =
+    const { program, week, render, renderPath, push, pathname, view } =
         usePageRender()
     const {
         dialog: { viewLog: viewLogDialog },
@@ -18,14 +18,9 @@ const ViewLogDialog = (props: Props) => {
 
     const { data: log, isLoading } = useGetLog()
 
-    const title = isLoading
-        ? "Loading..."
-        : log && log?.log
-        ? "View Log"
-        : "Missed Log"
-
     const toggleViewLogDialogHandler = () => {
         toggleDialog("viewLog")
+        if (view) return
         setTimeout(() => {
             push(
                 {
@@ -45,7 +40,7 @@ const ViewLogDialog = (props: Props) => {
         <BaseDialog
             isOpen={viewLogDialog}
             onClose={toggleViewLogDialogHandler}
-            title={title}
+            title={isLoading ? "Loading..." : "View Log"}
         >
             <div className="grid grid-cols-1 grid-flow-row gap-4">
                 {isLoading ? (
@@ -67,7 +62,7 @@ const ViewLogDialog = (props: Props) => {
                                     Status
                                 </span>
                                 <span className="badge badge-lg badge-error font-semibold">
-                                    No log
+                                    Lapsed
                                 </span>
                             </div>
                         )}

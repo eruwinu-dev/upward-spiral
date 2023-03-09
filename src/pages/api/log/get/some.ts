@@ -10,11 +10,11 @@ import {
     isToday,
     set,
 } from "date-fns"
-import { SortedLog } from "@/types/log"
+import { HabitLogSlot } from "@/types/log"
 import { toDateString } from "@/utils/dates"
 
 type Data = {
-    logs: SortedLog[]
+    slots: HabitLogSlot[]
 }
 
 interface GetLogsRequest extends NextApiRequest {
@@ -42,30 +42,48 @@ const handler = async (req: GetLogsRequest, res: NextApiResponse<Data>) => {
     })
 
     const datesOfWeek = eachDayOfInterval({
-        start: addWeeks(start, week - 1),
+        start: addDays(addWeeks(start, week - 1), 0),
         end: addDays(addWeeks(start, week), -1),
     })
 
     const weeklyTarget =
-        frequency === "WEEKLY"
-            ? datesOfWeek[(repeatDay as number) - 1]
-            : frequency === "BIWEEKLY"
-            ? week % 2 === 1
-                ? datesOfWeek[(repeatDay as number) - 1]
+        typeof repeatDay !== "undefined"
+            ? frequency === "WEEKLY"
+                ? repeatDay === 0
+                    ? datesOfWeek[datesOfWeek.length - 1]
+                    : datesOfWeek[repeatDay - 1]
+                : frequency === "BIWEEKLY"
+                ? week % 2 === 1
+                    ? repeatDay === 0
+                        ? datesOfWeek[datesOfWeek.length - 1]
+                        : datesOfWeek[repeatDay - 1]
+                    : undefined
                 : undefined
             : undefined
 
-    const logsByDay: SortedLog[] = datesOfWeek.map((date) => ({
+    const slots: HabitLogSlot[] = datesOfWeek.map((date, index) => ({
         date,
+        week,
+        day: index + 1,
         dateString: toDateString(date),
         isToday: isToday(date),
         isLapsed:
             frequency === "DAILY"
-                ? differenceInCalendarDays(date, today) < 1
+                ? differenceInCalendarDays(date, today) < 0
                 : frequency === "WEEKLY" || frequency === "BIWEEKLY"
                 ? weeklyTarget && isSameDay(weeklyTarget, date)
                     ? today > weeklyTarget
                     : false
+                : false,
+        isTarget:
+            frequency === "DAILY"
+                ? true
+                : frequency === "WEEKLY" || frequency === "BIWEEKLY"
+                ? weeklyTarget
+                    ? isSameDay(weeklyTarget, date)
+                    : false
+                : frequency === "CUSTOM"
+                ? false
                 : false,
         log:
             frequency === "DAILY"
@@ -79,7 +97,7 @@ const handler = async (req: GetLogsRequest, res: NextApiResponse<Data>) => {
                 : undefined,
     }))
 
-    res.status(200).json({ logs: logsByDay })
+    res.status(200).json({ slots })
 }
 
 export default handler

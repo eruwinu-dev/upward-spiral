@@ -13,13 +13,13 @@
         @apply w-full min-h-screen max-h-fit;
     }
     header {
-        @apply sticky top-0 left-0 w-full border-b-2 border-primary/40;
+        @apply sticky top-0 left-0 w-full inline-flex items-center justify-center;
     }
     header > nav {
-        @apply w-full inline-flex items-center justify-between px-4 py-2;
+        @apply w-10/12 inline-flex items-center justify-between px-4 py-2;
     }
     header > nav > ul {
-        @apply inline-flex px-4;
+        @apply inline-flex px-4 space-x-2;
     }
 }
 

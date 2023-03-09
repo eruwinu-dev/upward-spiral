@@ -12,12 +12,22 @@ export type GroupedLog = {
     logs: Log[]
 }
 
-export type SortedLog = {
+export type HabitLogSlot = {
     date: Date
+    week: number
+    day: number
     dateString: string
-    isToday: boolean
+    isTarget: boolean
     isLapsed: boolean
+    isToday: boolean
     log?: Log
+}
+
+export type LogSummary = {
+    slots: HabitLogSlot[]
+    lapsed: number
+    logged: number
+    total: number
 }
 
 export type LogWithHabit = Log & {
@@ -34,19 +44,4 @@ export type FormattedLog = {
     habitSlug: string
     message: string
     log?: SimpleLog
-}
-
-export type StatusLogs = {
-    logs: Log[]
-    lapsed: number
-    total: number
-    dates: Date[]
-    logsByDate: StatusLog[]
-}
-
-export type StatusLog = {
-    date: Date
-    dateString: string
-    isToday: boolean
-    log?: Log
 }

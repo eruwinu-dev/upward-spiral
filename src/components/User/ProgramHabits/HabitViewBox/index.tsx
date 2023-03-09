@@ -13,9 +13,9 @@ type Props = {
 }
 
 const HabitViewBox = ({ habit }: Props) => {
-    const { data: logs, isLoading } = useGetLogsByHabit(habit)
+    const { data: info, isLoading } = useGetLogsByHabit(habit)
 
-    if (!logs || isLoading)
+    if (!info || isLoading)
         return (
             <div className="min-h-[93vh] max-h-[93vh] col-span-12 inline-flex items-center justify-center">
                 <Spinner />
@@ -43,11 +43,11 @@ const HabitViewBox = ({ habit }: Props) => {
                 </div>
             </div>
             <div className="grid grid-cols-2 gap-4 col-span-6 p-4 rounded-lg bg-white w-full">
-                <HabitProgress logs={logs} />
+                <HabitProgress info={info} />
             </div>
             <div className="grid grid-cols-1 gap-4 col-span-12 p-4 rounded-lg bg-white w-full">
                 <span className="text-lg font-semibold">Logs</span>
-                <HabitViewLogs logs={logs.logsByDate} />
+                <HabitViewLogs slots={info.slots} />
             </div>
         </div>
     )

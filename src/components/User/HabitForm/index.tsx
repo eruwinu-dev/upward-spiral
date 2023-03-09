@@ -387,7 +387,7 @@ const HabitForm = ({ form }: Props) => {
                                 {daysOfWeek.map((day, index) => (
                                     <option
                                         key={day}
-                                        value={index + 1}
+                                        value={index}
                                         label={day}
                                         className="font-base"
                                     />

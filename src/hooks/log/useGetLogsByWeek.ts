@@ -1,5 +1,5 @@
 import { HabitWithProgram } from "@/types/habit"
-import { SortedLog } from "@/types/log"
+import { HabitLogSlot } from "@/types/log"
 import { useQuery } from "@tanstack/react-query"
 import { usePageRender } from "../custom/usePageRender"
 import { useGetUser } from "../user/useGetUser"
@@ -8,7 +8,7 @@ export const useGetLogsByWeek = (habit: HabitWithProgram) => {
     const { role, program, week } = usePageRender()
     const { data: user } = useGetUser()
 
-    return useQuery<SortedLog[], Error>({
+    return useQuery<HabitLogSlot[], Error>({
         queryKey: [
             role.toLowerCase(),
             "program",
@@ -31,8 +31,8 @@ export const useGetLogsByWeek = (habit: HabitWithProgram) => {
                     repeatDay: habit.repeatDay,
                 }),
             })
-            const { logs } = await result.json()
-            return logs
+            const { slots } = await result.json()
+            return slots
         },
         enabled: !!habit?.id,
         refetchOnWindowFocus: false,

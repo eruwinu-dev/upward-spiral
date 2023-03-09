@@ -22,7 +22,7 @@ const ProgramsList = (props: Props) => {
 
     const goToProgramHandler =
         (program: Program) => async (event: MouseEvent<HTMLButtonElement>) => {
-            const { week } = await mutateUpdateDate(program.createdAt)
+            const { week } = await mutateUpdateDate(program.startDate)
             push(
                 {
                     pathname,

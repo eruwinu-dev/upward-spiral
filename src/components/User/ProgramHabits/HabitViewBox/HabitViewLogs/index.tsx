@@ -1,12 +1,48 @@
-import { StatusLog } from "@/types/log"
-import React from "react"
+import useUserContext from "@/context/UserState"
+import { usePageRender } from "@/hooks/custom/usePageRender"
+import { HabitLogSlot } from "@/types/log"
+import React, { MouseEvent } from "react"
 import HabitViewLogAnswer from "./HabitViewLogAnswer"
 
 type Props = {
-    logs: StatusLog[]
+    slots: HabitLogSlot[]
 }
 
-const HabitViewLogs = ({ logs }: Props) => {
+const HabitViewLogs = ({ slots }: Props) => {
+    const { toggleDialog } = useUserContext()
+
+    const { push, pathname, program, render, view, habit, renderPath } =
+        usePageRender()
+
+    const openViewLogDialogHandler =
+        ({ week, day }: HabitLogSlot) =>
+        (event: MouseEvent<HTMLSpanElement>) => {
+            toggleDialog("viewLog")
+            push(
+                {
+                    pathname,
+                    query:
+                        render === "static"
+                            ? {
+                                  program,
+                                  week,
+                                  day,
+                                  habit,
+                                  view,
+                              }
+                            : {},
+                },
+                renderPath({
+                    program,
+                    week: String(week),
+                    day: String(day),
+                    habit,
+                    view,
+                }),
+                { shallow: true }
+            )
+        }
+
     return (
         <table className="table table-auto text-center text-sm">
             <thead>
@@ -17,28 +53,35 @@ const HabitViewLogs = ({ logs }: Props) => {
                 </tr>
             </thead>
             <tbody>
-                {logs.map((log, index) => (
+                {slots.map((slot, index) => (
                     <tr key={index}>
-                        <td>{log.dateString}</td>
+                        <td
+                            onClick={openViewLogDialogHandler(slot)}
+                            className="link link-hover"
+                        >
+                            <span>{slot.dateString}</span>
+                        </td>
                         <td
                             className={[
-                                log.log
+                                slot.isLapsed
+                                    ? "text-error"
+                                    : slot.log
                                     ? "text-success"
-                                    : log.isToday
-                                    ? "text-content"
-                                    : "text-error",
+                                    : "text-content",
                                 "font-semibold",
                             ].join(" ")}
                         >
-                            {log.log
-                                ? "Completed"
-                                : log.isToday
-                                ? "To Answer"
-                                : "Lapsed"}
+                            {slot.isLapsed
+                                ? "Lapsed"
+                                : slot.log
+                                ? "Accomplished"
+                                : "To Answer"}
                         </td>
                         <td>
-                            {log.log ? (
-                                <HabitViewLogAnswer message={log.log.message} />
+                            {slot.log ? (
+                                <HabitViewLogAnswer
+                                    message={slot.log.message}
+                                />
                             ) : null}
                         </td>
                     </tr>
