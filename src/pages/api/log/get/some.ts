@@ -35,11 +35,7 @@ const handler = async (req: GetLogsRequest, res: NextApiResponse<Data>) => {
 
     const start = new Date(startDate)
 
-    const today = set(new Date(Date.now()), {
-        hours: 0,
-        minutes: 0,
-        seconds: 0,
-    })
+    const today = new Date(Date.now())
 
     const datesOfWeek = eachDayOfInterval({
         start: addDays(addWeeks(start, week - 1), 0),
