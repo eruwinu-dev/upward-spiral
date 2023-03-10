@@ -1,11 +1,11 @@
 import { fetcher } from "@/utils/fetcher"
 import { useMutation } from "@tanstack/react-query"
 
-export const updateDateInfo = async (startDate: Date, timezone: string) => {
+export const updateDateInfo = async (startDate: Date) => {
     const dateInfo = await fetcher(
         "/api/date/update",
         "POST",
-        JSON.stringify({ startDate, timezone })
+        JSON.stringify({ startDate })
     )
     return dateInfo
 }
