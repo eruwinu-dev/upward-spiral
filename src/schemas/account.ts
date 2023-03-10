@@ -2,7 +2,7 @@ import { z } from "zod"
 
 export const accountSchema = z.object({
     name: z.string().min(1, { message: "Required" }),
-    offset: z.coerce.number(),
+    timezone: z.string().min(1, { message: "Required" }),
     email: z.string().min(1, { message: "Required" }),
 })
 

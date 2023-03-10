@@ -49,7 +49,7 @@ model User {
   programsAsTrainer Program[]
   programsAsTrainee ProgramsOnTrainee[]
   logs              Log[]
-  offset            Int                 @default(0)
+  timezone          String              @default("UTC")
 }
 
 model VerificationToken {

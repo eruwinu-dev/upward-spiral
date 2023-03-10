@@ -3,17 +3,14 @@ import { NextApiRequest, NextApiResponse } from "next"
 import { GetLogsData, getLogsByWeek } from "@/lib/log/getLogs"
 import {
     addDays,
-    addHours,
-    addMinutes,
     addWeeks,
     differenceInCalendarDays,
     eachDayOfInterval,
     isSameDay,
-    isToday,
-    set,
 } from "date-fns"
 import { HabitLogSlot } from "@/types/log"
 import { toDateString } from "@/utils/dates"
+import { utcToTimezone } from "@/utils/timezone"
 
 type Data = {
     slots: HabitLogSlot[]
@@ -24,7 +21,7 @@ interface GetLogsRequest extends NextApiRequest {
 }
 
 const handler = async (req: GetLogsRequest, res: NextApiResponse<Data>) => {
-    const { id, userId, week, startDate, frequency, repeatDay, offset } =
+    const { id, userId, week, startDate, frequency, repeatDay, timezone } =
         req.body
 
     const logs = await getLogsByWeek({
@@ -34,15 +31,11 @@ const handler = async (req: GetLogsRequest, res: NextApiResponse<Data>) => {
         startDate,
         frequency,
         repeatDay,
-        offset,
+        timezone,
     })
 
-    const start = addMinutes(
-        new Date(new Date(startDate).toUTCString()),
-        offset
-    )
-
-    const today = addMinutes(new Date(Date.now()), offset)
+    const start = utcToTimezone(new Date(startDate), timezone)
+    const today = utcToTimezone(new Date(Date.now()), timezone)
 
     const datesOfWeek = eachDayOfInterval({
         start: addDays(addWeeks(start, week - 1), 0),
@@ -69,7 +62,7 @@ const handler = async (req: GetLogsRequest, res: NextApiResponse<Data>) => {
         week,
         day: index + 1,
         dateString: toDateString(date),
-        isToday: isToday(date),
+        isToday: isSameDay(today, date),
         isLapsed:
             frequency === "DAILY"
                 ? differenceInCalendarDays(date, today) < 0

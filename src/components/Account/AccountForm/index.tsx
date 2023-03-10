@@ -34,7 +34,7 @@ const AccountForm = (props: Props) => {
     useEffect(() => {
         if (!user) return
         setValue("name", user.name)
-        setValue("timezone", 0 / 60)
+        setValue("timezone", user.timezone)
         return () => {}
     }, [])
 
@@ -46,7 +46,7 @@ const AccountForm = (props: Props) => {
 
         const data: AccountSchema = {
             name,
-            offset: timezone * 60,
+            timezone,
             email: user.email as string,
         }
         const count = await mutateEditUser(data)
@@ -117,7 +117,7 @@ const AccountForm = (props: Props) => {
                         {timezones.map((zone) => (
                             <option
                                 key={zone.name}
-                                value={zone.amount}
+                                value={zone.name}
                                 label={`${zone.name} (${zone.offset})`}
                                 className="font-base"
                             />
