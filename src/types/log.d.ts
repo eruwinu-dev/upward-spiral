@@ -1,17 +1,5 @@
 import { Habit, Log } from "@prisma/client"
 
-export type LogSlot = {
-    week: number
-    day: number
-    date: Date
-    log: Log[]
-}
-
-export type GroupedLog = {
-    id: string
-    logs: Log[]
-}
-
 export type HabitLogSlot = {
     date: Date
     week: number
@@ -30,18 +18,10 @@ export type LogSummary = {
     total: number
 }
 
-export type LogWithHabit = Log & {
-    habit: Habit
-}
-
-export type SimpleLog = {
-    id: string
-    message: string
-    createdAt: string
-}
-
-export type FormattedLog = {
+export type ViewLog = {
     habitSlug: string
-    message: string
-    log?: SimpleLog
+    question: string
+    hasLog: boolean
+    message?: string
+    logDateString?: string
 }

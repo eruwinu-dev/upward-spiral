@@ -2,11 +2,9 @@ import { HabitWithProgram } from "@/types/habit"
 import { LogSummary } from "@/types/log"
 import { useQuery } from "@tanstack/react-query"
 import { usePageRender } from "../custom/usePageRender"
-import { useGetUser } from "../user/useGetUser"
 
 export const useGetLogsByHabit = (habit: HabitWithProgram) => {
     const { role, program, week } = usePageRender()
-    const { data: user } = useGetUser()
 
     return useQuery<LogSummary, Error>({
         queryKey: [
@@ -26,7 +24,6 @@ export const useGetLogsByHabit = (habit: HabitWithProgram) => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     habitId: habit.id,
-                    userId: user?.id,
                     startDate: habit.program.startDate,
                     frequency: habit.frequency,
                     repeatDay: habit.repeatDay,

@@ -11,22 +11,30 @@ import {
 import { HabitLogSlot } from "@/types/log"
 import { toDateString } from "@/utils/dates"
 import { utcToTimezone } from "@/utils/timezone"
+import { HabitFrequency } from "@prisma/client"
 
 type Data = {
     slots: HabitLogSlot[]
 }
 
 interface GetLogsRequest extends NextApiRequest {
-    body: GetLogsData
+    body: {
+        habitId: string
+        week: number
+        startDate: Date
+        frequency: HabitFrequency
+        repeatDay?: number
+    }
 }
 
 const handler = async (req: GetLogsRequest, res: NextApiResponse<Data>) => {
-    const { id, userId, week, startDate, frequency, repeatDay } = req.body
+    const { habitId, week, startDate, frequency, repeatDay } = req.body
 
     const timezone = req.cookies["timezone"] || "UTC"
+    const userId = req.cookies["userId"] || ""
 
     const logs = await getLogsByWeek({
-        id,
+        habitId,
         userId,
         week,
         startDate,

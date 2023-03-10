@@ -52,10 +52,13 @@ const ViewLogDialog = (props: Props) => {
                     <>
                         <div className="grid grid-cols-1 grid-flow-row gap-2">
                             <span className="text-sm font-semibold">Task</span>
-                            <span>{log.message}</span>
+                            <span>{log.question}</span>
                         </div>
-                        {log.log ? (
-                            <LogAnswer log={log.log} />
+                        {log.hasLog && log.message && log.logDateString ? (
+                            <LogAnswer
+                                message={log.message}
+                                date={log.logDateString}
+                            />
                         ) : (
                             <div className="grid grid-cols-1 grid-flow-row gap-2">
                                 <span className="text-sm font-semibold">

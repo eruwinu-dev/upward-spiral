@@ -1,10 +1,9 @@
 import prisma from "@/lib/prisma"
-import { Habit, HabitFrequency } from "@prisma/client"
+import { HabitFrequency } from "@prisma/client"
 import { addDays, addWeeks } from "date-fns"
-import { toDateTimeString } from "@/utils/dates"
 
 export type GetLogsData = {
-    id: string
+    habitId: string
     userId: string
     week: number
     startDate: Date
@@ -18,6 +17,7 @@ export type GetLogData = {
     week: number
     day: number
     startDate: Date
+    timezone?: string
 }
 
 export type GetLogByHabitData = {
@@ -40,14 +40,14 @@ export const getLogsByHabit = async ({
 }
 
 export const getLogsByWeek = async ({
-    id,
+    habitId,
     userId,
     week,
     startDate,
 }: GetLogsData) => {
     const logs = await prisma.log.findMany({
         where: {
-            habitId: id,
+            habitId,
             userId,
             createdAt: {
                 gte: addWeeks(new Date(startDate), week - 1),
@@ -70,7 +70,7 @@ export const getLog = async ({
     const lowerBoundDate = date
     const upperBoundDate = addDays(date, 1)
 
-    const log = await prisma.habit.findFirst({
+    const habitAndLog = await prisma.habit.findFirst({
         where: {
             slug: habitSlug,
         },
@@ -90,27 +90,5 @@ export const getLog = async ({
         },
     })
 
-    const selectedLog = log
-        ? log.logs.length
-            ? log.logs[0]
-            : undefined
-        : undefined
-
-    const formattedLog = log
-        ? {
-              habitSlug: log.slug,
-              message: log.message,
-              log: selectedLog
-                  ? {
-                        id: selectedLog.id,
-                        message: selectedLog.message,
-                        createdAt: toDateTimeString(
-                            new Date(selectedLog.createdAt)
-                        ),
-                    }
-                  : undefined,
-          }
-        : null
-
-    return formattedLog
+    return habitAndLog
 }

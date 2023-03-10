@@ -1,15 +1,12 @@
 import { fetcher } from "@/utils/fetcher"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { useGetUser } from "@/hooks/user/useGetUser"
 import { usePageRender } from "../custom/usePageRender"
 import { HabitSchema } from "@/schemas/habit"
 import { useGetProgram } from "../program/useGetProgram"
 
 export const editHabit = async (
     data: HabitSchema,
-    programId: string | undefined,
-    slug: string | undefined,
-    creatorId: string | undefined
+    programId: string | undefined
 ) => {
     const { count } = await fetcher(
         "/api/habit/edit",
@@ -17,7 +14,6 @@ export const editHabit = async (
         JSON.stringify({
             ...data,
             programId,
-            creatorId,
         })
     )
     return count
@@ -25,14 +21,12 @@ export const editHabit = async (
 
 export const useEditHabit = () => {
     const queryClient = useQueryClient()
-    const { role, habit } = usePageRender()
+    const { role } = usePageRender()
     const { data: program } = useGetProgram()
-    const { data: user } = useGetUser()
 
     return useMutation({
         mutationKey: ["edit-habit"],
-        mutationFn: (data: HabitSchema) =>
-            editHabit(data, program?.id, habit, user?.id),
+        mutationFn: (data: HabitSchema) => editHabit(data, program?.id),
         onSuccess: () =>
             queryClient.invalidateQueries([
                 role.toLocaleLowerCase(),

@@ -109,10 +109,17 @@ const HabitForm = ({ form }: Props) => {
             duration: duration ? Number(duration) : undefined,
         }
 
-        toggleAction("addHabit", "LOADING")
-        const slug = await MutateAddHabit(data)
-        if (!slug) return
-        toggleAction("addHabit", "SUCCESS")
+        if (form === "add") {
+            toggleAction("addHabit", "LOADING")
+            const slug = await MutateAddHabit(data)
+            if (!slug) return
+            toggleAction("addHabit", "SUCCESS")
+        } else if (form === "edit") {
+            toggleAction("editHabit", "LOADING")
+            const count = await MutateEditHabit(data)
+            if (!count) return
+            toggleAction("editHabit", "SUCCESS")
+        }
     }
 
     useEffect(() => {

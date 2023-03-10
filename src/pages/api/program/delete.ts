@@ -6,7 +6,10 @@ type Data = {
 }
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-    const { slug, trainerId } = req.body
+    const { slug } = req.body
+
+    const trainerId = req.cookies["userId"] || ""
+
     const { count } = await prisma.program.deleteMany({
         where: { slug, trainerId, type: "CUSTOM" },
     })

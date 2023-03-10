@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from "next"
 
 import { getLogsByHabit, GetLogByHabitData } from "@/lib/log/getLogs"
 import {
-    addDays,
     addWeeks,
     differenceInCalendarDays,
     differenceInCalendarWeeks,
@@ -16,29 +15,40 @@ import {
 } from "date-fns"
 import { HabitLogSlot, LogSummary } from "@/types/log"
 import { toDateString } from "@/utils/dates"
+import { HabitFrequency } from "@prisma/client"
+import { utcToTimezone } from "@/utils/timezone"
 
 type RepeatDay = 0 | 1 | 2 | 3 | 4 | 5 | 6 | undefined
 
 interface GetLogsRequest extends NextApiRequest {
-    body: GetLogByHabitData
+    body: {
+        habitId: string
+        startDate: Date
+        frequency: HabitFrequency
+        repeatDay?: number
+        duration?: number
+    }
 }
 
 const handler = async (
     req: GetLogsRequest,
     res: NextApiResponse<LogSummary>
 ) => {
-    const { habitId, userId, frequency, repeatDay, duration, startDate } =
-        req.body
+    const { habitId, frequency, repeatDay, duration, startDate } = req.body
+
+    const userId = req.cookies["userId"] || ""
+    const timezone = req.cookies["timezone"] || "UTC"
 
     const logs = await getLogsByHabit({ habitId, userId })
 
-    const start = new Date(startDate as Date)
+    const start = utcToTimezone(new Date(startDate), timezone)
+
     const end = set(addWeeks(start, 15), {
         hours: 0,
         minutes: 0,
         seconds: 0,
     })
-    const today = set(new Date(Date.now()), {
+    const today = set(utcToTimezone(new Date(Date.now()), timezone), {
         hours: 23,
         minutes: 59,
         seconds: 59,

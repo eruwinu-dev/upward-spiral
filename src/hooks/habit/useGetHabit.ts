@@ -2,11 +2,9 @@ import { useQuery } from "@tanstack/react-query"
 import { usePageRender } from "@/hooks/custom/usePageRender"
 import { useGetProgram } from "../program/useGetProgram"
 import { Habit } from "@prisma/client"
-import { useGetUser } from "../user/useGetUser"
 
 export const useGetHabit = () => {
     const { data: program } = useGetProgram()
-    const { data: user } = useGetUser()
     const { role, habit: slug } = usePageRender()
 
     return useQuery<Habit, Error>({
@@ -22,7 +20,6 @@ export const useGetHabit = () => {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    userId: user?.id,
                     programId: program?.id,
                     role,
                     habitSlug: slug,

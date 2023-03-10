@@ -62,7 +62,7 @@ const AccountForm = (props: Props) => {
         )
 
     return (
-        <div className="col-span-4 grid grid-cols-1 grid-flow-row gap-4 p-4 place-content-start">
+        <div className="lg:col-span-4 md:col-span-6 col-span-12 grid grid-cols-1 grid-flow-row gap-4 p-4 place-content-start">
             <div className="grid grid-cols-1 grid-flow-row gap-2">
                 <h1 className="text-2xl font-bold">Account Settings</h1>
             </div>

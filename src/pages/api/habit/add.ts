@@ -8,7 +8,9 @@ type Data = {
     programSlug: string
 }
 const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-    const { programId, habitTypeId, creatorId, ...data } = req.body
+    const { programId, habitTypeId, ...data } = req.body
+
+    const creatorId = req.cookies["userId"] || ""
 
     const habit = await prisma.habit.create({
         data: {

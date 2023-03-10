@@ -1,13 +1,13 @@
-import { SimpleLog } from "@/types/log"
 import { range } from "@/utils/range"
 import { HabitMetric } from "@prisma/client"
 import React from "react"
 
 type Props = {
-    log: SimpleLog
+    message: string
+    date: string
 }
 
-const LogAnswer = ({ log: { message, createdAt } }: Props) => {
+const LogAnswer = ({ message, date }: Props) => {
     const [type, answer] = message.split(" --- ") as [HabitMetric, string]
 
     return (
@@ -63,7 +63,7 @@ const LogAnswer = ({ log: { message, createdAt } }: Props) => {
             </div>
             <div className="grid grid-cols-1 grid-flow-row gap-2">
                 <span className="text-sm font-semibold">Log Date and Time</span>
-                <span className="text-sm">{createdAt}</span>
+                <span className="text-sm">{date}</span>
             </div>
         </>
     )

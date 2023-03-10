@@ -66,6 +66,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     context.res.setHeader("Set-Cookie", [
         `timezone=${user.timezone}; Max-Age=36000; Path=/`,
     ])
+    context.res.setHeader("Set-Cookie", [
+        `userId=${user.id}; Max-Age=36000; Path=/`,
+    ])
 
     const queryClient = new QueryClient()
 

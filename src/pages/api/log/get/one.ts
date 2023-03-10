@@ -1,9 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import { getLog, GetLogData } from "@/lib/log/getLogs"
-import { FormattedLog } from "@/types/log"
+import { ViewLog } from "@/types/log"
+import { toDateTimeString } from "@/utils/dates"
+import { utcToTimezone } from "@/utils/timezone"
 
 type Data = {
-    formattedLog: FormattedLog | null
+    log: ViewLog
 }
 
 interface ViewLogRequest extends NextApiRequest {
@@ -11,9 +13,12 @@ interface ViewLogRequest extends NextApiRequest {
 }
 
 const handler = async (req: ViewLogRequest, res: NextApiResponse<Data>) => {
-    const { userId, habitSlug, startDate, week, day } = req.body
+    const { habitSlug, startDate, week, day } = req.body
 
-    const formattedLog = await getLog({
+    const userId = req.cookies["userId"] || ""
+    const timezone = req.cookies["timezone"] || "UTC"
+
+    const habitAndLog = await getLog({
         userId,
         habitSlug,
         week,
@@ -21,7 +26,21 @@ const handler = async (req: ViewLogRequest, res: NextApiResponse<Data>) => {
         startDate,
     })
 
-    res.status(200).json({ formattedLog })
+    const selectedLog = habitAndLog ? habitAndLog.logs[0] : undefined
+
+    const log: ViewLog = {
+        habitSlug,
+        question: habitAndLog ? habitAndLog.message : "",
+        hasLog: !!habitAndLog,
+        message: selectedLog ? selectedLog.message : undefined,
+        logDateString: selectedLog
+            ? toDateTimeString(
+                  utcToTimezone(new Date(selectedLog.createdAt), timezone)
+              )
+            : undefined,
+    }
+
+    res.status(200).json({ log })
 }
 
 export default handler

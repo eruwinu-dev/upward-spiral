@@ -6,11 +6,13 @@ type Data = {
     count: number
 }
 const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-    const { email, ...data } = req.body
+    const { email, name, timezone } = req.body
+
+    res.setHeader("Set-Cookie", [`timezone=${timezone}; Max-Age=36000; Path=/`])
 
     const { count } = await prisma.user.updateMany({
         where: { email },
-        data,
+        data: { name, timezone },
     })
 
     res.status(200).json({ count })

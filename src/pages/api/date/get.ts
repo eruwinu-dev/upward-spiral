@@ -3,21 +3,22 @@ import { toDateTimeString } from "@/utils/dates"
 import { utcToTimezone } from "@/utils/timezone"
 
 type Data = {
-    date: Date
-    dateString: string
-    newString: string
+    localDate: Date
+    localDateString: string
+    utcDate: Date
+    utcDateString: string
 }
 const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-    const { timezone } = req.body
+    const timezone = req.cookies["timezone"] || "UTC"
 
-    const date = utcToTimezone(new Date(Date.now()), timezone)
-
+    const localDate = utcToTimezone(new Date(Date.now()), timezone)
     const utcDate = utcToTimezone(new Date(Date.now()), "UTC")
 
     res.status(200).json({
-        date,
-        dateString: toDateTimeString(date),
-        newString: toDateTimeString(utcDate),
+        localDate,
+        localDateString: toDateTimeString(localDate),
+        utcDate,
+        utcDateString: toDateTimeString(utcDate),
     })
 }
 

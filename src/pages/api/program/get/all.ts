@@ -7,7 +7,10 @@ type Data = {
 }
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-    const { userId, role, slug } = req.body
+    const { role, slug } = req.body
+
+    const userId = req.cookies["userId"] || ""
+
     const programs = await getPrograms({ userId, slug, role })
 
     res.status(200).json({ programs })

@@ -11,7 +11,9 @@ export interface GetHabitRequest extends NextApiRequest {
 }
 
 const handler = async (req: GetHabitRequest, res: NextApiResponse<Data>) => {
-    const { userId, programId, role } = req.body
+    const { programId, role } = req.body
+
+    const userId = req.cookies["userId"] || ""
 
     const groups = await getHabits({ userId, programId, role })
     res.status(200).json({ groups })

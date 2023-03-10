@@ -8,7 +8,7 @@ export const useGetUser = () => {
     return useQuery<User, Error>({
         queryKey: ["user"],
         queryFn: async () => {
-            const result = await fetch("/api/user/get", {
+            const result = await fetch("/api/user/get/one", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email }),

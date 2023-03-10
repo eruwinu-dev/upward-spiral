@@ -1,4 +1,5 @@
 import AccountForm from "@/components/Account/AccountForm"
+import EditUserDialog from "@/components/Account/EditAccountDialog"
 import UserSideBar from "@/components/User/UserSideBar"
 import { checkUser } from "@/utils/checkUser"
 import { dehydrate, QueryClient } from "@tanstack/react-query"
@@ -23,6 +24,7 @@ const Account = ({}: Props) => {
                     <AccountForm />
                 </div>
             </section>
+            <EditUserDialog />
         </>
     )
 }
@@ -38,6 +40,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             },
         }
     }
+
+    context.res.setHeader("Set-Cookie", [
+        `timezone=${user.timezone}; Max-Age=36000; Path=/`,
+    ])
+    context.res.setHeader("Set-Cookie", [
+        `userId=${user.id}; Max-Age=36000; Path=/`,
+    ])
 
     const queryClient = new QueryClient()
 

@@ -2,11 +2,9 @@ import { HabitWithProgram } from "@/types/habit"
 import { HabitLogSlot } from "@/types/log"
 import { useQuery } from "@tanstack/react-query"
 import { usePageRender } from "../custom/usePageRender"
-import { useGetUser } from "../user/useGetUser"
 
 export const useGetLogsByWeek = (habit: HabitWithProgram) => {
     const { role, program, week } = usePageRender()
-    const { data: user } = useGetUser()
 
     return useQuery<HabitLogSlot[], Error>({
         queryKey: [
@@ -23,8 +21,7 @@ export const useGetLogsByWeek = (habit: HabitWithProgram) => {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    id: habit.id,
-                    userId: user?.id,
+                    habitId: habit.id,
                     week: Number(week),
                     startDate: habit.program.startDate,
                     frequency: habit.frequency,

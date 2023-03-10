@@ -7,7 +7,10 @@ type Data = {
 }
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-    const { trainerId, ...data } = req.body
+    const data = req.body
+
+    const trainerId = req.cookies["userId"] || ""
+
     const program = await prisma.program.create({
         data: {
             ...data,
