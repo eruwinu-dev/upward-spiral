@@ -21,6 +21,7 @@ const initialUserDialog: UserDialog = {
     deleteLog: false,
     addTrainee: false,
     deleteTrainee: false,
+    editUser: false,
 }
 
 const initialUserAction: UserAction = {
@@ -37,6 +38,7 @@ const initialUserAction: UserAction = {
     deleteLog: "IDLE",
     addTrainee: "IDLE",
     deleteTrainee: "IDLE",
+    editUser: "IDLE",
 }
 
 const UserContext = createContext<UserContextType | null>(null)

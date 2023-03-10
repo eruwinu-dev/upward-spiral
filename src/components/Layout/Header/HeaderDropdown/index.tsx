@@ -40,7 +40,7 @@ const HeaderDropdown = (props: Props) => {
                     </Link>
                 </li>
                 <li>
-                    <Link href="/">Account</Link>
+                    <Link href="/account">Account</Link>
                 </li>
                 <div className="divider my-0" />
                 {user.role === "USER" ? null : (

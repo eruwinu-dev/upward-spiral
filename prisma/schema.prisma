@@ -49,6 +49,7 @@ model User {
   programsAsTrainer Program[]
   programsAsTrainee ProgramsOnTrainee[]
   logs              Log[]
+  offset            Int                 @default(0)
 }
 
 model VerificationToken {
@@ -66,8 +67,8 @@ model Program {
   slug        String
   description String
   type        ProgramType         @default(CUSTOM)
-  createdAt   DateTime            @default(now()) @db.Timestamptz(3)
-  startDate   DateTime            @db.Timestamptz(3)
+  createdAt   DateTime            @default(now())
+  startDate   DateTime
   habits      Habit[]
   trainerId   String?
   trainer     User?               @relation(fields: [trainerId], references: [id], onDelete: SetNull)

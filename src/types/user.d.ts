@@ -16,6 +16,7 @@ export type UserDialog = {
     deleteLog: boolean
     addTrainee: boolean
     deleteTrainee: boolean
+    editUser: boolean
 }
 
 export type UserAction = {
@@ -32,6 +33,7 @@ export type UserAction = {
     deleteLog: ActionStatus
     addTrainee: ActionStatus
     deleteTrainee: ActionStatus
+    editUser: ActionStatus
 }
 
 export interface UserContextType {

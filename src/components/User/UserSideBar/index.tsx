@@ -1,4 +1,5 @@
 import HeaderDropdown from "@/components/Layout/Header/HeaderDropdown"
+import { usePageRender } from "@/hooks/custom/usePageRender"
 import { useGetUser } from "@/hooks/user/useGetUser"
 import Link from "next/link"
 import React from "react"
@@ -7,6 +8,7 @@ import ProgramsList from "../ProgramsList"
 type Props = {}
 
 const UserSideBar = (props: Props) => {
+    const { pathname } = usePageRender()
     const { data: user } = useGetUser()
 
     if (!user) return <></>
@@ -21,7 +23,7 @@ const UserSideBar = (props: Props) => {
                 </Link>
             </div>
             <HeaderDropdown />
-            <ProgramsList />
+            {pathname.startsWith("/account") ? null : <ProgramsList />}
         </>
     )
 }

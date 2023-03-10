@@ -3,6 +3,8 @@ import { NextApiRequest, NextApiResponse } from "next"
 import { GetLogsData, getLogsByWeek } from "@/lib/log/getLogs"
 import {
     addDays,
+    addHours,
+    addMinutes,
     addWeeks,
     differenceInCalendarDays,
     eachDayOfInterval,
@@ -22,7 +24,8 @@ interface GetLogsRequest extends NextApiRequest {
 }
 
 const handler = async (req: GetLogsRequest, res: NextApiResponse<Data>) => {
-    const { id, userId, week, startDate, frequency, repeatDay } = req.body
+    const { id, userId, week, startDate, frequency, repeatDay, offset } =
+        req.body
 
     const logs = await getLogsByWeek({
         id,
@@ -31,11 +34,15 @@ const handler = async (req: GetLogsRequest, res: NextApiResponse<Data>) => {
         startDate,
         frequency,
         repeatDay,
+        offset,
     })
 
-    const start = new Date(startDate)
+    const start = addMinutes(
+        new Date(new Date(startDate).toUTCString()),
+        offset
+    )
 
-    const today = new Date(Date.now())
+    const today = addMinutes(new Date(Date.now()), offset)
 
     const datesOfWeek = eachDayOfInterval({
         start: addDays(addWeeks(start, week - 1), 0),
