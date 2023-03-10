@@ -29,7 +29,6 @@ export const useGetLogsByWeek = (habit: HabitWithProgram) => {
                     startDate: habit.program.startDate,
                     frequency: habit.frequency,
                     repeatDay: habit.repeatDay,
-                    offset: user?.timezone,
                 }),
             })
             const { slots } = await result.json()

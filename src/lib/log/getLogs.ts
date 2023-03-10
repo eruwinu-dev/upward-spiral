@@ -10,7 +10,6 @@ export type GetLogsData = {
     startDate: Date
     frequency: HabitFrequency
     repeatDay?: number
-    timezone: string
 }
 
 export type GetLogData = {

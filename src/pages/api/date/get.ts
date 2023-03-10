@@ -1,27 +1,23 @@
 import type { NextApiRequest, NextApiResponse } from "next"
-import { addDays, addMinutes, isToday, toDate } from "date-fns"
 import { toDateTimeString } from "@/utils/dates"
-import { offsetDate } from "@/utils/timezone"
+import { utcToTimezone } from "@/utils/timezone"
 
 type Data = {
-    dateTime: Date
+    date: Date
     dateString: string
-    offset: number
-    timezone: string
     newString: string
 }
 const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-    const { offset } = req.body
-    const dateTime = new Date(new Date(Date.now()).toUTCString())
+    const { timezone } = req.body
 
-    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+    const date = utcToTimezone(new Date(Date.now()), timezone)
 
-res.status(200).json({
-        dateTime,
-        dateString: toDateTimeString(dateTime),
-        offset: dateTime.getTimezoneOffset(),
-        timezone,
-        newString: toDateTimeString(offsetDate(offset, dateTime)),
+    const utcDate = utcToTimezone(new Date(Date.now()), "UTC")
+
+    res.status(200).json({
+        date,
+        dateString: toDateTimeString(date),
+        newString: toDateTimeString(utcDate),
     })
 }
 

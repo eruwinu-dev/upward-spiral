@@ -21,8 +21,9 @@ interface GetLogsRequest extends NextApiRequest {
 }
 
 const handler = async (req: GetLogsRequest, res: NextApiResponse<Data>) => {
-    const { id, userId, week, startDate, frequency, repeatDay, timezone } =
-        req.body
+    const { id, userId, week, startDate, frequency, repeatDay } = req.body
+
+    const timezone = req.cookies["timezone"] || "UTC"
 
     const logs = await getLogsByWeek({
         id,
@@ -31,7 +32,6 @@ const handler = async (req: GetLogsRequest, res: NextApiResponse<Data>) => {
         startDate,
         frequency,
         repeatDay,
-        timezone,
     })
 
     const start = utcToTimezone(new Date(startDate), timezone)

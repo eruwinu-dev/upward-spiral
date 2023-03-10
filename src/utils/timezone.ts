@@ -2,12 +2,7 @@ import { Timezone } from "@/types/timezone"
 import { addMinutes } from "date-fns"
 
 export const utcToTimezone = (date: Date, timeZone: string) =>
-    process.env.NODE_ENV === "production"
-        ? new Date(date.toLocaleString("en-US", { timeZone }))
-        : date
-
-export const offsetDate = (offset: number, date: Date) =>
-    addMinutes(new Date(date.toUTCString()), offset - 4)
+    new Date(date.toLocaleString("en-US", { timeZone }))
 
 export const timezones: Timezone[] = [
     {
