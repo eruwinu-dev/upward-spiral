@@ -34,7 +34,7 @@ const AccountForm = (props: Props) => {
     useEffect(() => {
         if (!user) return
         setValue("name", user.name)
-        setValue("timezone", user.offset / 60)
+        setValue("timezone", 0 / 60)
         return () => {}
     }, [])
 
