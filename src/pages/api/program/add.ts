@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma"
+import { utcToTimezone } from "@/utils/timezone"
 import { Program } from "@prisma/client"
 import type { NextApiRequest, NextApiResponse } from "next"
 
@@ -7,13 +8,14 @@ type Data = {
 }
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-    const data = req.body
+    const { startDate, ...data } = req.body
 
     const trainerId = req.cookies["userId"] || ""
 
     const program = await prisma.program.create({
         data: {
             ...data,
+            startDate: utcToTimezone(new Date(startDate), "UTC"),
             trainer: {
                 connect: { id: trainerId },
             },

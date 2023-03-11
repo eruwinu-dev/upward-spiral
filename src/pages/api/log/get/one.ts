@@ -3,6 +3,7 @@ import { getLog, GetLogData } from "@/lib/log/getLogs"
 import { ViewLog } from "@/types/log"
 import { toDateTimeString } from "@/utils/dates"
 import { utcToTimezone } from "@/utils/timezone"
+import { differenceInCalendarDays } from "date-fns"
 
 type Data = {
     log: ViewLog

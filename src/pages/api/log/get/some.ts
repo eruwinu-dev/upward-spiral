@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next"
 
-import { GetLogsData, getLogsByWeek } from "@/lib/log/getLogs"
+import { getLogsByWeek } from "@/lib/log/getLogs"
 import {
     addDays,
     addWeeks,
@@ -72,13 +72,14 @@ const handler = async (req: GetLogsRequest, res: NextApiResponse<Data>) => {
         dateString: toDateString(date),
         isToday: isSameDay(today, date),
         isLapsed:
-            frequency === "DAILY"
+            !logs.find((log) => isSameDay(new Date(log.createdAt), date)) &&
+            (frequency === "DAILY"
                 ? differenceInCalendarDays(date, today) < 0
                 : frequency === "WEEKLY" || frequency === "BIWEEKLY"
                 ? weeklyTarget && isSameDay(weeklyTarget, date)
                     ? today > weeklyTarget
                     : false
-                : false,
+                : false),
         isTarget:
             frequency === "DAILY"
                 ? true

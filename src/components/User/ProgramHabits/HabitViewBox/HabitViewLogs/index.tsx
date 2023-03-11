@@ -63,19 +63,23 @@ const HabitViewLogs = ({ slots }: Props) => {
                         </td>
                         <td
                             className={[
-                                slot.isLapsed
-                                    ? "text-error"
-                                    : slot.log
+                                slot.log
                                     ? "text-success"
-                                    : "text-content",
-                                "font-semibold",
+                                    : slot.isToday
+                                    ? ""
+                                    : slot.isLapsed
+                                    ? "text-error"
+                                    : "",
+                                "font-bold",
                             ].join(" ")}
                         >
-                            {slot.isLapsed
-                                ? "Lapsed"
-                                : slot.log
+                            {slot.log
                                 ? "Accomplished"
-                                : "To Answer"}
+                                : slot.isToday
+                                ? "To Answer"
+                                : slot.isLapsed
+                                ? "Lapsed"
+                                : null}
                         </td>
                         <td>
                             {slot.log ? (

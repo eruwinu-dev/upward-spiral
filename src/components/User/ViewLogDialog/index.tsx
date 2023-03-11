@@ -64,8 +64,8 @@ const ViewLogDialog = (props: Props) => {
                                 <span className="text-sm font-semibold">
                                     Status
                                 </span>
-                                <span className="badge badge-lg badge-error font-semibold">
-                                    Lapsed
+                                <span className="badge badge-lg font-semibold">
+                                    No Log
                                 </span>
                             </div>
                         )}

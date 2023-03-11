@@ -2,7 +2,7 @@ import { useGetProgram } from "@/hooks/program/useGetProgram"
 import { capitalize } from "@/utils/capitalize"
 import { getFrequencyString } from "@/utils/getFrequencyString"
 import { Habit } from "@prisma/client"
-import React, { MouseEvent } from "react"
+import React from "react"
 
 type Props = {
     habit: Habit

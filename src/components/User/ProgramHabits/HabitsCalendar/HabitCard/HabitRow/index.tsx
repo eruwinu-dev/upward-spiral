@@ -71,9 +71,7 @@ const HabitRow = ({ habit }: Props) => {
                     ? range(1, 8).map((index) => (
                           <td key={index}>
                               <div className="inline-flex items-center justify-center">
-                                  <span className="btn btn-sm btn-square animate-pulse opacity-0">
-                                      1
-                                  </span>
+                                  <span className="btn btn-sm btn-square animate-pulse opacity-0"></span>
                               </div>
                           </td>
                       ))

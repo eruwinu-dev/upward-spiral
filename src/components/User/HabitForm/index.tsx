@@ -16,6 +16,7 @@ import { slugify } from "@/utils/slugify"
 import { HabitFrequency, HabitMetric } from "@prisma/client"
 import React, { MouseEvent, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
+import HabitMetricGuide from "./HabitMetricGuide"
 
 type Props = {
     form: "add" | "edit"
@@ -308,7 +309,7 @@ const HabitForm = ({ form }: Props) => {
                             ))}
                         </select>
                     </div>
-                    {/* To Do: Add descriptions for habit metric */}
+                    <HabitMetricGuide metric={metric as HabitMetric} />
                 </div>
             ) : page === 3 ? (
                 <div>

@@ -48,11 +48,7 @@ const handler = async (
         minutes: 0,
         seconds: 0,
     })
-    const today = set(utcToTimezone(new Date(Date.now()), timezone), {
-        hours: 23,
-        minutes: 59,
-        seconds: 59,
-    })
+    const today = utcToTimezone(new Date(Date.now()), timezone)
 
     const total =
         frequency === "DAILY"
@@ -95,7 +91,9 @@ const handler = async (
             day: getDay(date) === 0 ? 7 : getDay(date),
             dateString: toDateString(date),
             isTarget: true,
-            isLapsed: differenceInCalendarDays(date, today) < 0,
+            isLapsed:
+                !logs.find((log) => isSameDay(new Date(log.createdAt), date)) &&
+                differenceInCalendarDays(date, today) < 0,
             isToday: isToday(date),
             log: logs.find((log) => isSameDay(new Date(log.createdAt), date)),
         }
