@@ -34,6 +34,6 @@ export const useGetLogsByHabit = (habit: HabitWithProgram) => {
             return data
         },
         enabled: !!habit?.id,
-        refetchOnWindowFocus: true,
+        refetchOnWindowFocus: false,
     })
 }
