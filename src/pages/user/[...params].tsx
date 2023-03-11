@@ -13,6 +13,7 @@ import { dehydrate, QueryClient } from "@tanstack/react-query"
 import { GetServerSideProps } from "next"
 import Head from "next/head"
 import React from "react"
+import nookies from "nookies"
 
 type Props = {}
 
@@ -53,12 +54,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         }
     }
 
-    context.res.setHeader("Set-Cookie", [
-        `timezone=${user.timezone}; Max-Age=36000; Path=/`,
-    ])
-    context.res.setHeader("Set-Cookie", [
-        `userId=${user.id}; Max-Age=36000; Path=/`,
-    ])
+    nookies.set(context, "timezone", user.timezone, {
+        maxAge: 30 * 24 * 60 * 60,
+    })
+
+    nookies.set(context, "userId", user.id, {
+        maxAge: 30 * 24 * 60 * 60,
+    })
 
     const queryClient = new QueryClient()
 
