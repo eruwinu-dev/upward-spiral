@@ -18,7 +18,7 @@ const TraineeGridItem = ({ trainee }: Props) => {
         }
 
     return (
-        <div className="w-full p-2 hover:bg-white inline-flex items-center justify-between rounded-lg">
+        <div className="w-full p-2 hover:bg-base-200 inline-flex items-center justify-between rounded-lg">
             <span className="text-sm">{trainee.name}</span>
             <div className="dropdown dropdown-end">
                 <label tabIndex={0} className="btn btn-sm btn-ghost btn-circle">
@@ -26,7 +26,7 @@ const TraineeGridItem = ({ trainee }: Props) => {
                 </label>
                 <ul
                     tabIndex={0}
-                    className="dropdown-content menu p-2 shadow bg-white rounded-box w-52"
+                    className="dropdown-content menu p-2 shadow bg-base-200 rounded-box w-52"
                 >
                     <li>
                         <a

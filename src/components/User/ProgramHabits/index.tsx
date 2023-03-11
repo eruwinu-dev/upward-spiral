@@ -43,6 +43,24 @@ const ProgramHabits = (props: Props) => {
             : undefined
         : undefined)
 
+    if (typeof window !== "undefined") {
+        window.document.title = isLoading
+            ? "Upward Spiral"
+            : `${
+                  program
+                      ? `${program.name}${
+                            viewSlug && viewSlug === "habit"
+                                ? ` - ${
+                                      viewSlug && selectedHabit
+                                          ? `${selectedHabit.message} | `
+                                          : ``
+                                  }`
+                                : " | "
+                        }`
+                      : ""
+              }Upward Spiral`
+    }
+
     if (!programSlug)
         return (
             <>

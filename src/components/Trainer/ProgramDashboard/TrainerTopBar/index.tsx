@@ -55,7 +55,7 @@ const TrainerTopBar = ({ program, habit }: Props) => {
     }
 
     return (
-        <div className="sticky top-0 left-0 min-h-[7vh] max-h-[7vh] grid grid-cols-3 grid-flow-row py-1 px-2 bg-white col-span-12">
+        <div className="sticky top-0 left-0 min-h-[7vh] max-h-[7vh] grid grid-cols-3 grid-flow-row py-1 px-2 bg-base-200 col-span-12">
             <div className="inline-flex items-center justify-start w-full space-x-1">
                 <h2
                     className="link link-hover text-lg font-semibold"
@@ -75,13 +75,13 @@ const TrainerTopBar = ({ program, habit }: Props) => {
                     </label>
                     <ul
                         tabIndex={0}
-                        className="dropdown-content menu p-2 shadow bg-white rounded-box w-52 text-sm"
+                        className="dropdown-content menu p-2 shadow bg-base-200 rounded-box w-52 text-sm"
                     >
                         {habit ? (
                             <>
                                 <li>
                                     <a
-                                        className="focus:bg-white"
+                                        className="focus:bg-base-200"
                                         onClick={toggleDialogHandler(
                                             "editHabit"
                                         )}
@@ -91,7 +91,7 @@ const TrainerTopBar = ({ program, habit }: Props) => {
                                 </li>
                                 <li>
                                     <a
-                                        className="focus:bg-white"
+                                        className="focus:bg-base-200"
                                         onClick={toggleDialogHandler(
                                             "deleteHabit"
                                         )}
@@ -104,7 +104,7 @@ const TrainerTopBar = ({ program, habit }: Props) => {
                             <>
                                 <li>
                                     <a
-                                        className="focus:bg-white"
+                                        className="focus:bg-base-200"
                                         onClick={toggleDialogHandler(
                                             "editProgram"
                                         )}
@@ -114,7 +114,7 @@ const TrainerTopBar = ({ program, habit }: Props) => {
                                 </li>
                                 <li>
                                     <a
-                                        className="focus:bg-white"
+                                        className="focus:bg-base-200"
                                         onClick={toggleDialogHandler(
                                             "deleteProgram"
                                         )}

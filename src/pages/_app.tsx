@@ -11,19 +11,29 @@ import { useState } from "react"
 
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 
+import { ThemeProvider } from "next-themes"
+
 export default function App({ Component, pageProps }: AppProps) {
     const [queryClient] = useState(() => new QueryClient())
 
     return (
-        <QueryClientProvider client={queryClient}>
-            <Hydrate state={pageProps.dehydratedState}>
-                <SessionProvider session={pageProps.session}>
-                    <Layout>
-                        <Component {...pageProps} />
-                    </Layout>
-                    <ReactQueryDevtools initialIsOpen={false} />
-                </SessionProvider>
-            </Hydrate>
-        </QueryClientProvider>
+        <>
+            <ThemeProvider
+                defaultTheme="light"
+                themes={["light", "dark"]}
+                attribute="data-theme"
+            >
+                <QueryClientProvider client={queryClient}>
+                    <Hydrate state={pageProps.dehydratedState}>
+                        <SessionProvider session={pageProps.session}>
+                            <Layout>
+                                <Component {...pageProps} />
+                            </Layout>
+                            <ReactQueryDevtools initialIsOpen={false} />
+                        </SessionProvider>
+                    </Hydrate>
+                </QueryClientProvider>
+            </ThemeProvider>
+        </>
     )
 }

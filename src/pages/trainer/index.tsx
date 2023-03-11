@@ -21,7 +21,7 @@ const Home = ({}: Props) => {
     return (
         <>
             <Head>
-                <title>Admin | Static</title>
+                <title>Trainer Dashboard | Upward Spiral</title>
             </Head>
             <section className="grid grid-cols-12 grid-flow-row min-h-screen max-h-screen">
                 <div className="lg:col-span-2 md:col-span-3 sm:col-span-4 col-span-5 border-r-2 px-2 flex flex-col items-start justify-start space-y-2">

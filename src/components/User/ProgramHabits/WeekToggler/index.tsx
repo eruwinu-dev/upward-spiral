@@ -2,9 +2,12 @@ import { Icons } from "@/components/Icons"
 import { usePageRender } from "@/hooks/custom/usePageRender"
 import React, { MouseEvent } from "react"
 
-type Props = {}
+type Props = {
+    start: string
+    end: string
+}
 
-const WeekToggler = (props: Props) => {
+const WeekToggler = ({ start, end }: Props) => {
     const {
         push,
         render,
@@ -32,7 +35,12 @@ const WeekToggler = (props: Props) => {
 
     return (
         <div className="inline-flex items-center justify-end space-x-4">
-            <h3 className="text-md font-semibold">{`Week ${week}`}</h3>
+            <div
+                className="tooltip tooltip-bottom cursor-pointer"
+                data-tip={`${start} to ${end}`}
+            >
+                <h3 className="text-md font-semibold">{`Week ${week}`}</h3>
+            </div>
             <div className="btn-group">
                 <button
                     className="btn btn-sm btn-ghost btn-square"

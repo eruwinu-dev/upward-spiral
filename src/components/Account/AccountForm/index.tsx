@@ -3,6 +3,7 @@ import useUserContext from "@/context/UserState"
 import { useEditUser } from "@/hooks/user/useEditUser"
 import { useGetUser } from "@/hooks/user/useGetUser"
 import { AccountSchema } from "@/schemas/account"
+import { capitalize } from "@/utils/capitalize"
 import { timezones } from "@/utils/timezone"
 import React, { MouseEvent, useEffect } from "react"
 import { useForm } from "react-hook-form"
@@ -13,6 +14,7 @@ const AccountForm = (props: Props) => {
     const {
         action: { editUser: editUserAction },
         toggleAction,
+        toggleDialog,
     } = useUserContext()
 
     const { data: user, isLoading } = useGetUser()
@@ -52,6 +54,7 @@ const AccountForm = (props: Props) => {
         const count = await mutateEditUser(data)
         if (!count) return
         toggleAction("editUser", "SUCCESS")
+        toggleDialog("editUser")
     }
 
     if (isLoading)
@@ -90,6 +93,50 @@ const AccountForm = (props: Props) => {
                         })}
                     />
                 </div>
+                {user ? (
+                    <>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text">Email</span>
+                                {errors.name && (
+                                    <span className="error-message">
+                                        {errors.name?.message as string}
+                                    </span>
+                                )}
+                            </label>
+                            <input
+                                type="text"
+                                value={user.email as string}
+                                readOnly={true}
+                                placeholder="Email"
+                                className="input input-sm"
+                                disabled={true}
+                            />
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text">Role</span>
+                                {errors.name && (
+                                    <span className="error-message">
+                                        {errors.name?.message as string}
+                                    </span>
+                                )}
+                            </label>
+                            <input
+                                type="text"
+                                value={
+                                    capitalize(
+                                        (user.role as string).toLowerCase()
+                                    ) as string
+                                }
+                                readOnly={true}
+                                placeholder="Role"
+                                className="input input-sm"
+                                disabled={true}
+                            />
+                        </div>
+                    </>
+                ) : null}
                 <div className="form-control">
                     <label className="label">
                         <span className="label-text">Time Zone</span>

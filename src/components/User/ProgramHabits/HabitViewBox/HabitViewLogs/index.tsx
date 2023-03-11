@@ -54,7 +54,7 @@ const HabitViewLogs = ({ slots }: Props) => {
             </thead>
             <tbody>
                 {slots.map((slot, index) => (
-                    <tr key={index}>
+                    <tr key={index} className="hover">
                         <td
                             onClick={openViewLogDialogHandler(slot)}
                             className="link link-hover"

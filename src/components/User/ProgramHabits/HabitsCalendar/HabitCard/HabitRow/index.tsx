@@ -51,40 +51,38 @@ const HabitRow = ({ habit }: Props) => {
     }
 
     return (
-        <>
-            <tr>
-                <td>
-                    <p
-                        className="text-wrap link link-hover"
-                        onClick={openHabitViewBoxHandler}
-                    >
-                        {habit.message}
-                    </p>
-                </td>
-                {slots
-                    ? slots.map((slot, index) => (
-                          <td key={index} className="text-center">
-                              <HabitLog slug={habit.slug} slot={slot} />
-                          </td>
-                      ))
-                    : isLoading
-                    ? range(1, 8).map((index) => (
-                          <td key={index}>
-                              <div className="inline-flex items-center justify-center">
-                                  <span className="btn btn-sm btn-square animate-pulse opacity-0"></span>
-                              </div>
-                          </td>
-                      ))
-                    : null}
-                <td>
-                    <span className="font-semibold">
-                        {typeof completion !== "undefined"
-                            ? `${completion.toFixed(2)} %`
-                            : ""}
-                    </span>
-                </td>
-            </tr>
-        </>
+        <tr className="hover">
+            <td>
+                <p
+                    className="text-wrap link link-hover"
+                    onClick={openHabitViewBoxHandler}
+                >
+                    {habit.message}
+                </p>
+            </td>
+            {slots
+                ? slots.map((slot, index) => (
+                      <td key={index} className="text-center">
+                          <HabitLog slug={habit.slug} slot={slot} />
+                      </td>
+                  ))
+                : range(1, 8).map((slot) => (
+                      <td key={slot} className="text-center">
+                          <button
+                              type="button"
+                              disabled={true}
+                              className="btn btn-sm btn-ghost btn-square loading"
+                          />
+                      </td>
+                  ))}
+            <td>
+                <span className="font-semibold">
+                    {typeof completion !== "undefined"
+                        ? `${completion.toFixed(2)} %`
+                        : ""}
+                </span>
+            </td>
+        </tr>
     )
 }
 

@@ -16,7 +16,7 @@ const Header = ({}: Props) => {
             <nav>
                 <div>
                     <Link href="/">
-                        <span className="font-logo text-xl text-primary hover:text-primary-focus">
+                        <span className="font-logo text-xl text-accent hover:text-accent-focus">
                             Upward Spiral
                         </span>
                     </Link>
@@ -25,7 +25,7 @@ const Header = ({}: Props) => {
                     <li>
                         <button
                             type="button"
-                            className="text-base-200 hover:text-base-300 font-semibold p-2"
+                            className="dark:text-white hover:text-base-300 font-semibold p-2"
                         >
                             About
                         </button>
@@ -33,7 +33,7 @@ const Header = ({}: Props) => {
                     <li>
                         <button
                             type="button"
-                            className="text-primary hover:text-primary-focus font-semibold p-2"
+                            className="text-accent hover:text-accent-focus font-semibold p-2"
                             onClick={toggleSignInDialogHandler}
                         >
                             Sign In

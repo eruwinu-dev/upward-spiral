@@ -51,7 +51,7 @@ const BaseDialog = ({
                             <Dialog.Panel
                                 className={[
                                     size,
-                                    "w-full  transform overflow-hidden rounded-2xl bg-white px-6 pt-6 pb-2 text-left align-middle shadow-xl transition-all",
+                                    "w-full  transform overflow-hidden rounded-2xl bg-base-100 px-6 pt-6 pb-2 text-left align-middle shadow-xl transition-all",
                                 ].join(" ")}
                             >
                                 <Dialog.Title

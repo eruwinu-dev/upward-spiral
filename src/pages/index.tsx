@@ -23,7 +23,7 @@ const Landing = ({}: Props) => {
             <Header />
             <section className="min-h-screen max-h-screen grid grid-cols-1 grid-flow-row">
                 <div className="row-span-3 mx-auto max-w-xl text-center grid grid-cols-1 grid-flow-row aspect-square place-items-center place-content-center gap-4 rounded-full p-8">
-                    <h1 className="text-5xl font-logo font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary leading-snug">
+                    <h1 className="text-5xl font-logo font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-accent to-white leading-snug">
                         Stay on track and reach new heights.
                     </h1>
                     <div className="max-w-lg text-lg leading-loose font-semibold">
@@ -31,7 +31,7 @@ const Landing = ({}: Props) => {
                         progress, and stay motivated.
                     </div>
                     <button
-                        className="btn btn-lg btn-outline btn-primary"
+                        className="btn btn-lg btn-outline btn-accent"
                         onClick={toggleSignInDialogHandler}
                     >
                         Get Started

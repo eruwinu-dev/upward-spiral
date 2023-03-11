@@ -1,6 +1,7 @@
 import { Icons } from "@/components/Icons"
 import useUserContext from "@/context/UserState"
 import { usePageRender } from "@/hooks/custom/usePageRender"
+import { useGetWeek } from "@/hooks/date/useGetWeek"
 import { HabitWithProgram } from "@/types/habit"
 import { CompleteProgram } from "@/types/program"
 import { UserDialog } from "@/types/user"
@@ -17,6 +18,8 @@ const UserTopBar = ({ program, habit, isCustom }: Props) => {
     const { toggleDialog } = useUserContext()
     const { push, role, week, pathname, render, renderPath, view } =
         usePageRender()
+
+    const { data: info } = useGetWeek(new Date(program.startDate))
 
     const toggleDialogHandler =
         (prop: keyof UserDialog) =>
@@ -62,7 +65,7 @@ const UserTopBar = ({ program, habit, isCustom }: Props) => {
     }
 
     return (
-        <div className="sticky top-0 left-0 min-h-[7vh] max-h-[7vh] grid grid-cols-3 grid-flow-row py-1 px-2 bg-white col-span-12 z-[3]">
+        <div className="sticky top-0 left-0 min-h-[7vh] max-h-[7vh] grid grid-cols-3 grid-flow-row py-1 px-2 bg-base-300 col-span-12 z-[3]">
             <div className="inline-flex items-center justify-start w-full space-x-1">
                 <h2
                     className="link link-hover text-lg font-semibold"
@@ -76,8 +79,13 @@ const UserTopBar = ({ program, habit, isCustom }: Props) => {
             </div>
             <div></div>
             <div className="inline-flex items-center justify-end space-x-4">
-                {!habit ? <WeekToggler /> : null}
-                {habit && isCustom && view ? (
+                {!habit && info ? (
+                    <WeekToggler
+                        start={info.startDateString}
+                        end={info.endDateString}
+                    />
+                ) : null}
+                {habit && isCustom ? (
                     <div className="dropdown dropdown-bottom dropdown-end">
                         <label
                             tabIndex={0}
@@ -87,12 +95,12 @@ const UserTopBar = ({ program, habit, isCustom }: Props) => {
                         </label>
                         <ul
                             tabIndex={0}
-                            className="dropdown-content menu p-2 shadow bg-white rounded-box w-52 text-sm"
+                            className="dropdown-content menu p-2 shadow bg-base-300 rounded-box w-52 text-sm"
                         >
                             <>
                                 <li>
                                     <a
-                                        className="focus:bg-white"
+                                        className="p-2"
                                         onClick={toggleDialogHandler(
                                             "deleteHabit"
                                         )}

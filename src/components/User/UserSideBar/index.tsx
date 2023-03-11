@@ -13,7 +13,7 @@ const UserSideBar = (props: Props) => {
         <>
             <div className="w-full font-semibold rounded-lg p-4">
                 <Link href="/" shallow>
-                    <span className="font-logo text-xl text-primary">
+                    <span className="font-logo text-xl text-accent">
                         Upward Spiral
                     </span>
                 </Link>
