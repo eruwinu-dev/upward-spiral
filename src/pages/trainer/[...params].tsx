@@ -13,7 +13,6 @@ import { getPrograms } from "@/lib/program/getPrograms"
 import { checkUser } from "@/utils/checkUser"
 import { dehydrate, QueryClient } from "@tanstack/react-query"
 import { GetServerSideProps } from "next"
-import Head from "next/head"
 import React from "react"
 
 type Props = {}
@@ -21,9 +20,6 @@ type Props = {}
 const Home = ({}: Props) => {
     return (
         <>
-            <Head>
-                <title>Admin | Dynamic</title>
-            </Head>
             <section className="grid grid-cols-12 grid-flow-row min-h-screen max-h-screen">
                 <div className="lg:col-span-2 md:col-span-3 sm:col-span-4 col-span-5 border-r-2 px-2 flex flex-col items-start justify-start space-y-2">
                     <UserSideBar />

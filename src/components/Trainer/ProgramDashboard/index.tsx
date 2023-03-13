@@ -2,16 +2,23 @@ import Spinner from "@/components/Spinner"
 import { usePageRender } from "@/hooks/custom/usePageRender"
 import { useGetHabits } from "@/hooks/habit/useGetHabits"
 import { useGetProgram } from "@/hooks/program/useGetProgram"
-import React from "react"
+import React, { useEffect } from "react"
 import HabitDashboard from "../HabitDashboard"
 import HabitGrid from "./HabitGrid"
+import TraineeCalendar from "../TraineeCalendar"
 import TraineeGrid from "./TraineeGrid"
 import TrainerTopBar from "./TrainerTopBar"
 
 type Props = {}
 
 const ProgramDashboard = (props: Props) => {
-    const { habit: habitSlug, program: programSlug } = usePageRender()
+    const {
+        role,
+        habit: habitSlug,
+        program: programSlug,
+        trainee: traineeId,
+        view: viewSlug,
+    } = usePageRender()
 
     const { data: program } = useGetProgram()
     const { data: groups, isLoading } = useGetHabits()
@@ -24,6 +31,37 @@ const ProgramDashboard = (props: Props) => {
                   .find((habit) => habit.slug === habitSlug)
             : undefined
         : undefined
+
+    const trainees = program
+        ? program.trainees.map((trainee) => trainee.trainee)
+        : []
+
+    const selectedTrainee = traineeId
+        ? trainees.find((trainee) => trainee.id === traineeId)
+        : undefined
+
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            window.document.title = isLoading
+                ? "Trainer Dashboard - Upward Spiral"
+                : `${
+                      program
+                          ? `${program.name} | ${
+                                selectedHabit
+                                    ? ` ${selectedHabit.message} `
+                                    : ``
+                            }${
+                                selectedTrainee
+                                    ? `${selectedTrainee.name} `
+                                    : ``
+                            }`
+                          : ""
+                  }${
+                      (program && selectedHabit) || selectedTrainee ? " | " : ""
+                  }Trainer Dashboard - Upward Spiral`
+        }
+        return () => {}
+    }, [role, program, viewSlug, selectedHabit, selectedTrainee])
 
     if (!programSlug)
         return (
@@ -43,19 +81,19 @@ const ProgramDashboard = (props: Props) => {
 
     return (
         <>
-            <TrainerTopBar program={program} habit={selectedHabit} />
-            {!selectedHabit ? (
-                <>
-                    <HabitGrid groups={groups} />
-                    <TraineeGrid
-                        trainees={program.trainees.map(
-                            (trainee) => trainee.trainee
-                        )}
-                    />
-                </>
+            <TrainerTopBar
+                program={program}
+                habit={selectedHabit}
+                trainee={selectedTrainee}
+            />
+            {selectedHabit ? (
+                <HabitDashboard habit={selectedHabit} />
+            ) : selectedTrainee ? (
+                <TraineeCalendar trainee={selectedTrainee} groups={groups} />
             ) : (
                 <>
-                    <HabitDashboard habit={selectedHabit} />
+                    <HabitGrid groups={groups} />
+                    <TraineeGrid trainees={trainees} />
                 </>
             )}
         </>

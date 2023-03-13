@@ -16,7 +16,7 @@ const HabitDashboard = ({ habit }: Props) => {
     return (
         <>
             <div className="min-h-[93vh] max-h-[93vh] overflow-auto grid grid-cols-2 grid-flow-row place-items-start place-content-start col-span-12 p-4 gap-4">
-                <div className="w-full grid grid-cols-1 grid-flow-row gap-4">
+                <div className="w-full grid grid-cols-1 grid-flow-row gap-4 p-4 rounded-lg bg-base-200">
                     <div className="grid grid-cols-1 grid-flow-row gap-2">
                         <h3 className="text-xl font-bold">Habit Details</h3>
                     </div>
@@ -46,6 +46,8 @@ const HabitDashboard = ({ habit }: Props) => {
                         </p>
                     </div>
                 </div>
+                <div className="w-full grid grid-cols-1 grid-flow-row gap-4 p-4 rounded-lg bg-base-200"></div>
+                <div className="w-full col-span-2 grid grid-cols-1 grid-flow-row gap-4 p-4 rounded-lg bg-base-200"></div>
             </div>
         </>
     )

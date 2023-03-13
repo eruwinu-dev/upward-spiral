@@ -38,11 +38,6 @@ const ProgramsList = (props: Props) => {
                     : renderPath({ program: program.slug }),
                 { shallow: true }
             )
-            if (typeof window !== "undefined") {
-                window.document.title = `${
-                    program ? program.name : ""
-                } | Upward Spiral`
-            }
         }
 
     const showAddProgramDialogHandler = (event: MouseEvent) =>

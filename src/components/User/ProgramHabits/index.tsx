@@ -3,7 +3,7 @@ import useUserContext from "@/context/UserState"
 import { usePageRender } from "@/hooks/custom/usePageRender"
 import { useGetHabits } from "@/hooks/habit/useGetHabits"
 import { useGetProgram } from "@/hooks/program/useGetProgram"
-import React from "react"
+import React, { useEffect } from "react"
 import UserTopBar from "../UserTopBar"
 import HabitsCalendar from "./HabitsCalendar"
 import HabitViewBox from "./HabitViewBox"
@@ -43,23 +43,26 @@ const ProgramHabits = (props: Props) => {
             : undefined
         : undefined)
 
-    if (typeof window !== "undefined") {
-        window.document.title = isLoading
-            ? "Upward Spiral"
-            : `${
-                  program
-                      ? `${program.name}${
-                            viewSlug && viewSlug === "habit"
-                                ? ` - ${
-                                      viewSlug && selectedHabit
-                                          ? `${selectedHabit.message} | `
-                                          : ``
-                                  }`
-                                : " | "
-                        }`
-                      : ""
-              }Upward Spiral`
-    }
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            window.document.title = isLoading
+                ? "Upward Spiral"
+                : `${
+                      program
+                          ? `${program.name}${
+                                viewSlug && viewSlug === "habit"
+                                    ? ` - ${
+                                          viewSlug && selectedHabit
+                                              ? `${selectedHabit.message} | `
+                                              : ``
+                                      }`
+                                    : " | "
+                            }`
+                          : ""
+                  }Upward Spiral`
+        }
+        return () => {}
+    }, [program, viewSlug, selectedHabit])
 
     if (!programSlug)
         return (

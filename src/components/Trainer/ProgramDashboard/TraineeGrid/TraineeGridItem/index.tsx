@@ -1,6 +1,4 @@
-import { Icons } from "@/components/Icons"
-import useUserContext from "@/context/UserState"
-import { UserDialog } from "@/types/user"
+import { usePageRender } from "@/hooks/custom/usePageRender"
 import { User } from "@prisma/client"
 import React, { MouseEvent } from "react"
 
@@ -8,36 +6,41 @@ type Props = {
     trainee: User
 }
 
-const TraineeGridItem = ({ trainee }: Props) => {
-    const { toggleDialog, selectUser } = useUserContext()
+const TraineeGridItem = ({ trainee: { name, id } }: Props) => {
+    const { render, renderPath, program, push, pathname } = usePageRender()
 
-    const openTraineeDialogHandler =
-        (prop: keyof UserDialog) => (event: MouseEvent<HTMLAnchorElement>) => {
-            selectUser(trainee.id)
-            toggleDialog(prop)
-        }
+    const viewTraineeHandler = (event: MouseEvent<HTMLDivElement>) => {
+        push(
+            {
+                pathname,
+                query:
+                    render === "static"
+                        ? {
+                              program,
+                              trainee: id,
+                              week: 1,
+                              day: 1,
+                              view: "trainee",
+                          }
+                        : {},
+            },
+            renderPath({
+                program,
+                trainee: id,
+                week: String(1),
+                day: "1",
+                view: "trainee",
+            }),
+            { shallow: true }
+        )
+    }
 
     return (
-        <div className="w-full p-2 hover:bg-base-200 inline-flex items-center justify-between rounded-lg">
-            <span className="text-sm">{trainee.name}</span>
-            <div className="dropdown dropdown-end">
-                <label tabIndex={0} className="btn btn-sm btn-ghost btn-circle">
-                    {Icons("vertical-dots")}
-                </label>
-                <ul
-                    tabIndex={0}
-                    className="dropdown-content menu p-2 shadow bg-base-200 rounded-box w-52"
-                >
-                    <li>
-                        <a
-                            className="text-sm"
-                            onClick={openTraineeDialogHandler("deleteTrainee")}
-                        >
-                            Remove Trainee
-                        </a>
-                    </li>
-                </ul>
-            </div>
+        <div
+            className="w-full p-2 hover:bg-base-200 inline-flex items-center justify-between rounded-lg cursor-pointer"
+            onClick={viewTraineeHandler}
+        >
+            <span className="text-sm">{name}</span>
         </div>
     )
 }

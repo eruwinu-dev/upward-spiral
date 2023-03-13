@@ -13,7 +13,7 @@ type Props = {
 const HabitRow = ({ habit }: Props) => {
     const { program, week, render, renderPath, push, pathname } =
         usePageRender()
-    const { data: slots, isLoading } = useGetLogsByWeek(habit)
+    const { data: slots } = useGetLogsByWeek(habit)
 
     const completion = slots
         ? getCompletion({

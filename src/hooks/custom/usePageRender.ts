@@ -6,6 +6,7 @@ type Params = {
     week?: string
     day?: string
     habit?: string
+    trainee?: string
     view?: string
 }
 
@@ -17,6 +18,7 @@ export interface PageRender extends NextRouter {
     week?: string
     day?: string
     habit?: string
+    trainee?: string
     view?: string
 }
 
@@ -30,6 +32,7 @@ export const usePageRender = (): PageRender => {
             week: weekQuery,
             day: dayQuery,
             habit: habitQuery,
+            trainee: traineeQuery,
             view: viewQuery,
         },
     } = router
@@ -45,24 +48,15 @@ export const usePageRender = (): PageRender => {
         : []
 
     const programParams = values[0] === "program" ? values[1] : undefined
+    const habitParams = values[2] === "habit" ? values[3] : undefined
     const weekParams =
         values[2] === "week"
             ? values[3]
             : values[4] === "week"
             ? values[5]
             : undefined
-    const dayParams =
-        values[4] === "day"
-            ? values[5]
-            : values[6] === "day"
-            ? values[7]
-            : undefined
-    const habitParams =
-        values[2] === "habit"
-            ? values[3]
-            : values[6] === "habit"
-            ? values[7]
-            : undefined
+    const dayParams = values[6] === "day" ? values[7] : undefined
+    const traineeParams = values[2] === "trainee" ? values[3] : undefined
     const viewParams = values[8] === "view" ? values[9] : undefined
 
     const program =
@@ -71,15 +65,41 @@ export const usePageRender = (): PageRender => {
     const day = render === "static" ? (dayQuery as string) : dayParams
     const habit = render === "static" ? (habitQuery as string) : habitParams
     const view = render === "static" ? (viewQuery as string) : viewParams
+    const trainee =
+        render === "static" ? (traineeQuery as string) : traineeParams
 
-    const renderPath = ({ program, week, day, habit, view }: Params) =>
-        `/${role.toLowerCase()}` +
-        `${program ? `/program/${program}` : ""}` +
-        (role === "TRAINER" ? `${habit ? `/habit/${habit}` : ""}` : "") +
-        (role !== "TRAINER" ? `${week ? `/week/${week}` : ""}` : "") +
-        (role !== "TRAINER" ? `${day ? `/day/${day}` : ""}` : "") +
-        (role !== "TRAINER" ? `${habit ? `/habit/${habit}` : ""}` : "") +
-        (role !== "TRAINER" ? `${view ? `/view/${view}` : ""}` : "")
+    const renderPath = ({
+        program,
+        week,
+        day,
+        habit,
+        trainee,
+        view,
+    }: Params) => {
+        const weekDayChunk =
+            `${week ? `/week/${week}` : ""}` + `${day ? `/day/${day}` : ""}`
+        const viewChunk = `${view ? `/view/${view}` : ""}`
+
+        console.log(program)
+
+        return (
+            `/${role.toLowerCase()}` +
+            `${program ? `/program/${program}` : ""}` +
+            `${
+                habit
+                    ? `${habit ? `/habit/${habit}` : ""}` +
+                      weekDayChunk +
+                      viewChunk
+                    : trainee
+                    ? `${trainee ? `/trainee/${trainee}` : ""}` +
+                      weekDayChunk +
+                      viewChunk
+                    : role === "USER"
+                    ? `${week ? `/week/${week}` : ""}`
+                    : ""
+            }`
+        )
+    }
 
     return {
         ...router,
@@ -90,6 +110,7 @@ export const usePageRender = (): PageRender => {
         week,
         day,
         habit,
+        trainee,
         view,
     }
 }

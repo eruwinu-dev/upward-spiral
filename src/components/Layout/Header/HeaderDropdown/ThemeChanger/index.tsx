@@ -21,7 +21,7 @@ const ThemeChanger = (props: Props) => {
                 <span className="label-text">Dark Mode</span>
                 <input
                     type="checkbox"
-                    className="toggle"
+                    className="toggle toggle-warning"
                     onChange={() =>
                         setTheme(theme === "light" ? "dark" : "light")
                     }

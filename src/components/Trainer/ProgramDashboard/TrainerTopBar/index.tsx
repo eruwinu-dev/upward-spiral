@@ -4,14 +4,16 @@ import { usePageRender } from "@/hooks/custom/usePageRender"
 import { HabitWithProgram } from "@/types/habit"
 import { CompleteProgram } from "@/types/program"
 import { UserDialog } from "@/types/user"
+import { User } from "@prisma/client"
 import React, { MouseEvent } from "react"
 
 type Props = {
     program: CompleteProgram
     habit?: HabitWithProgram
+    trainee?: User
 }
 
-const TrainerTopBar = ({ program, habit }: Props) => {
+const TrainerTopBar = ({ program, habit, trainee }: Props) => {
     const { toggleDialog } = useUserContext()
     const { push, pathname, render, renderPath } = usePageRender()
 
@@ -22,7 +24,7 @@ const TrainerTopBar = ({ program, habit }: Props) => {
 
     const closeWindowHandler = (event: MouseEvent<HTMLButtonElement>) => {
         if (!program) return
-        if (habit)
+        if (habit || trainee)
             push(
                 {
                     pathname,
@@ -66,6 +68,9 @@ const TrainerTopBar = ({ program, habit }: Props) => {
                 {habit ? (
                     <h2 className="text-lg">{`/ ${habit.title}`}</h2>
                 ) : null}
+                {trainee ? (
+                    <h2 className="text-lg">{`/ ${trainee.name}`}</h2>
+                ) : null}
             </div>
             <div></div>
             <div className="inline-flex items-center justify-end space-x-2 relative">
@@ -97,6 +102,19 @@ const TrainerTopBar = ({ program, habit }: Props) => {
                                         )}
                                     >
                                         Delete Habit
+                                    </a>
+                                </li>
+                            </>
+                        ) : trainee ? (
+                            <>
+                                <li>
+                                    <a
+                                        className="focus:bg-base-200"
+                                        onClick={toggleDialogHandler(
+                                            "deleteTrainee"
+                                        )}
+                                    >
+                                        Remove Trainee
                                     </a>
                                 </li>
                             </>

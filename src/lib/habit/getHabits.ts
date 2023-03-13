@@ -10,28 +10,41 @@ export type GetHabitData = {
 }
 
 export const getHabits = async ({ userId, programId, role }: GetHabitData) => {
-    const sortedHabits = await prisma.habitType.findMany({
+    const habits = await prisma.habitType.findMany({
         where: role === "USER" ? {} : { isCustom: false },
         select: {
             id: true,
             title: true,
             isCustom: true,
-            habits: {
-                where:
-                    role === "USER"
-                        ? {
+            habits:
+                role === "USER"
+                    ? {
+                          where: {
                               programId,
-                          }
-                        : {
+                          },
+                          include: { program: true },
+                      }
+                    : {
+                          where: {
                               programId,
                               creatorId: userId,
                           },
-                include: {
-                    program: true,
-                },
-            },
+                          include: { program: true },
+                      },
         },
     })
+
+    const sortedHabits = habits.map((habit) =>
+        habit.isCustom
+            ? {
+                  ...habit,
+                  habits: habit.habits.filter(
+                      (habit) => habit.creatorId === userId
+                  ),
+              }
+            : habit
+    )
+
     return sortedHabits
 }
 

@@ -14,7 +14,7 @@ const HabitGrid = ({ groups }: Props) => {
         toggleDialog("addHabit")
 
     return (
-        <div className="min-h-[93vh] max-h-[93vh] overflow-auto grid grid-cols-1 grid-flow-row place-items-start place-content-start col-span-7 p-4 gap-4">
+        <div className="min-h-[93vh] max-h-[93vh] overflow-auto grid grid-cols-1 grid-flow-row place-items-start place-content-start col-span-9 p-4 gap-4">
             <div className="w-full inline-flex items-center justify-start space-x-2">
                 <h3 className="text-xl font-bold">Habits</h3>
                 <button

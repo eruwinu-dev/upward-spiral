@@ -45,9 +45,7 @@ const HeaderDropdown = (props: Props) => {
                         </div>
                     </Link>
                 </li>
-                <li>
-                    <Link href="/account">Account</Link>
-                </li>
+                <div className="divider my-0" />
                 <li>
                     <ThemeChanger />
                 </li>
@@ -61,6 +59,9 @@ const HeaderDropdown = (props: Props) => {
                         )}
                     </li>
                 )}
+                <li>
+                    <Link href="/account">Settings</Link>
+                </li>
                 <li>
                     <a onClick={signOutHandler}>Sign Out</a>
                 </li>
