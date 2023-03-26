@@ -7,6 +7,7 @@ import DeleteHabitDialog from "@/components/User/DeleteHabitDialog"
 import DeleteProgramDialog from "@/components/User/DeleteProgramDialog"
 import EditHabitDialog from "@/components/User/EditHabitDialog"
 import UserSideBar from "@/components/User/UserSideBar"
+import ViewLogDialog from "@/components/User/ViewLogDialog"
 import { getHabitTypes } from "@/lib/habit/getHabitTypes"
 import { getPrograms } from "@/lib/program/getPrograms"
 
@@ -31,6 +32,7 @@ const Home = ({}: Props) => {
             <AddProgramDialog />
             <AddHabitDialog />
             <EditHabitDialog />
+            <ViewLogDialog />
             <DeleteHabitDialog />
             <DeleteProgramDialog />
             <AddTraineeDialog />

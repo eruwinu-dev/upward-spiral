@@ -10,11 +10,11 @@ type Props = {
     slot: HabitLogSlot
 }
 
-const HabitLog = ({
+const TraineeHabitLog = ({
     slug,
     slot: { dateString, isTarget, isLapsed, isToday, log, day },
 }: Props) => {
-    const { push, pathname, program, week, render, renderPath } =
+    const { push, pathname, program, trainee, week, render, renderPath, view } =
         usePageRender()
     const { toggleDialog } = useUserContext()
 
@@ -28,22 +28,25 @@ const HabitLog = ({
                         render === "static"
                             ? {
                                   program,
+                                  trainee,
                                   week,
                                   day,
                                   habit: slug,
+                                  view: "trainee",
                               }
                             : {},
                 },
                 renderPath({
                     program,
+                    habit: slug,
                     week,
                     day: String(day),
-                    habit: slug,
+                    trainee,
+                    view: "trainee",
                 }),
                 { shallow: true }
             )
         }
-
     if (!isTarget)
         return <div className="inline-flex items-center justify-center" />
 
@@ -62,6 +65,7 @@ const HabitLog = ({
                     type="button"
                     className="btn btn-sm btn-square btn-primary"
                     onClick={openLogDialogHandler("addLog")}
+                    disabled
                 >
                     {Icons("plus")}
                 </button>
@@ -86,4 +90,4 @@ const HabitLog = ({
     )
 }
 
-export default HabitLog
+export default TraineeHabitLog

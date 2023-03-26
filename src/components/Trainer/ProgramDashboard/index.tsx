@@ -86,10 +86,20 @@ const ProgramDashboard = (props: Props) => {
                 habit={selectedHabit}
                 trainee={selectedTrainee}
             />
-            {selectedHabit ? (
+            {selectedHabit && selectedTrainee ? (
+                <TraineeCalendar
+                    program={program}
+                    trainee={selectedTrainee}
+                    groups={groups}
+                />
+            ) : selectedHabit ? (
                 <HabitDashboard habit={selectedHabit} />
             ) : selectedTrainee ? (
-                <TraineeCalendar trainee={selectedTrainee} groups={groups} />
+                <TraineeCalendar
+                    program={program}
+                    trainee={selectedTrainee}
+                    groups={groups}
+                />
             ) : (
                 <>
                     <HabitGrid groups={groups} />

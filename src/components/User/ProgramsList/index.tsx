@@ -22,7 +22,7 @@ const ProgramsList = (props: Props) => {
 
     const goToProgramHandler =
         (program: Program) => async (event: MouseEvent<HTMLButtonElement>) => {
-            const { week } = await mutateUpdateDate(program.startDate)
+            const { week } = await mutateUpdateDate(program.slug)
             push(
                 {
                     pathname,
@@ -33,9 +33,7 @@ const ProgramsList = (props: Props) => {
                                 : { program: program.slug }
                             : {},
                 },
-                role === "USER"
-                    ? renderPath({ program: program.slug, week })
-                    : renderPath({ program: program.slug }),
+                renderPath({ program: program.slug, week }),
                 { shallow: true }
             )
         }

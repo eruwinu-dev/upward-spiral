@@ -7,13 +7,13 @@ type Data = {
 }
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-    const { programId, traineeId } = req.body
+    const { programSlug, traineeId } = req.body
 
     const trainee = await prisma.programsOnTrainee.create({
         data: {
             program: {
                 connect: {
-                    id: programId,
+                    slug: programSlug,
                 },
             },
             trainee: {

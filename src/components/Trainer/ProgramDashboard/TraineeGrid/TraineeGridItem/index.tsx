@@ -1,15 +1,20 @@
 import { usePageRender } from "@/hooks/custom/usePageRender"
+import { useUpdateDateInfo } from "@/hooks/date/useUpdateDateInfo"
 import { User } from "@prisma/client"
 import React, { MouseEvent } from "react"
 
 type Props = {
     trainee: User
+    startDate: Date
 }
 
-const TraineeGridItem = ({ trainee: { name, id } }: Props) => {
+const TraineeGridItem = ({ trainee: { name, id }, startDate }: Props) => {
     const { render, renderPath, program, push, pathname } = usePageRender()
+    const { mutateAsync: mutateUpdateDate } = useUpdateDateInfo()
 
-    const viewTraineeHandler = (event: MouseEvent<HTMLDivElement>) => {
+    const viewTraineeHandler = async (event: MouseEvent<HTMLDivElement>) => {
+        if (!program) return
+        const { week } = await mutateUpdateDate(program)
         push(
             {
                 pathname,
@@ -18,7 +23,7 @@ const TraineeGridItem = ({ trainee: { name, id } }: Props) => {
                         ? {
                               program,
                               trainee: id,
-                              week: 1,
+                              week: week,
                               day: 1,
                               view: "trainee",
                           }
@@ -27,8 +32,8 @@ const TraineeGridItem = ({ trainee: { name, id } }: Props) => {
             renderPath({
                 program,
                 trainee: id,
-                week: String(1),
-                day: "1",
+                week: String(week),
+                day: String(1),
                 view: "trainee",
             }),
             { shallow: true }

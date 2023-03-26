@@ -65,9 +65,16 @@ export const getLog = async ({
     day,
     startDate,
 }: GetLogData) => {
-    const date = addDays(new Date(startDate), (week - 1) * 7 + (day - 1))
+    const date = addDays(
+        new Date(startDate),
+        (week || 1 - 1) * 7 + (day || 1 - 1)
+    )
     const lowerBoundDate = date
     const upperBoundDate = addDays(date, 1)
+
+    const offset = (week || 1 - 1) * 7 + (day || 1 - 1)
+
+    if (!startDate) return null
 
     const habitAndLog = await prisma.habit.findFirst({
         where: {

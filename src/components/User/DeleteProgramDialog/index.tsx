@@ -2,13 +2,12 @@ import BaseDialog from "@/components/BaseDialog"
 import useUserContext from "@/context/UserState"
 import { usePageRender } from "@/hooks/custom/usePageRender"
 import { useDeleteProgram } from "@/hooks/program/useDeleteProgram"
-import { useGetProgram } from "@/hooks/program/useGetProgram"
 import React, { MouseEvent } from "react"
 
 type Props = {}
 
 const DeleteProgramDialog = (props: Props) => {
-    const { push, pathname, render, renderPath } = usePageRender()
+    const { push, pathname, renderPath, program } = usePageRender()
     const {
         dialog: { deleteProgram: deleteProgramDialog },
         action: { deleteProgram: deleteProgramAction },
@@ -16,7 +15,6 @@ const DeleteProgramDialog = (props: Props) => {
         toggleDialog,
     } = useUserContext()
 
-    const { data: program } = useGetProgram()
     const { mutateAsync: mutateDeleteProgram } = useDeleteProgram()
 
     const toggleDeleteProgramDialogHandler = () => {
@@ -29,7 +27,7 @@ const DeleteProgramDialog = (props: Props) => {
     ) => {
         if (!program) return
         toggleAction("deleteProgram", "LOADING")
-        const count = await mutateDeleteProgram(program.slug)
+        const count = await mutateDeleteProgram(program)
         if (!count) return
         toggleAction("deleteProgram", "SUCCESS")
         setTimeout(() => {

@@ -13,7 +13,11 @@ const WeekToggler = ({ start, end }: Props) => {
         render,
         renderPath,
         program,
+        role,
+        view,
         week: weekString,
+        day,
+        trainee,
         pathname,
     } = usePageRender()
 
@@ -26,9 +30,19 @@ const WeekToggler = ({ start, end }: Props) => {
                 {
                     pathname,
                     query:
-                        render === "static" ? { program, week: newWeek } : {},
+                        render === "static"
+                            ? role === "TRAINER"
+                                ? { program, trainee, week: newWeek, day, view }
+                                : { program, week: newWeek }
+                            : {},
                 },
-                renderPath({ program, week: String(newWeek) }),
+                renderPath({
+                    program,
+                    trainee,
+                    week: String(newWeek),
+                    day,
+                    view,
+                }),
                 { shallow: true }
             )
         }

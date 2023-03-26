@@ -1,6 +1,6 @@
 import BaseDialog from "@/components/BaseDialog"
 import useUserContext from "@/context/UserState"
-import { useGetProgram } from "@/hooks/program/useGetProgram"
+import { usePageRender } from "@/hooks/custom/usePageRender"
 import { useDeleteTrainee } from "@/hooks/trainee/useDeleteTrainee"
 import React, { MouseEvent } from "react"
 
@@ -12,17 +12,11 @@ const DeleteTraineeDialog = (props: Props) => {
         action: { deleteTrainee: deleteTraineeAction },
         toggleAction,
         toggleDialog,
-        selectedUserId,
     } = useUserContext()
 
-    const { data: program } = useGetProgram()
-    const { mutateAsync: mutateDeleteTrainee } = useDeleteTrainee()
+    const { trainee } = usePageRender()
 
-    const trainee = program
-        ? program.trainees
-              .map((trainee) => trainee.trainee)
-              .find((trainee) => trainee.id === selectedUserId)
-        : undefined
+    const { mutateAsync: mutateDeleteTrainee } = useDeleteTrainee()
 
     const toggleAddProgramDialogHandler = () => {
         toggleDialog("deleteTrainee")
@@ -32,9 +26,9 @@ const DeleteTraineeDialog = (props: Props) => {
     const deleteTraineeHandler = async (
         event: MouseEvent<HTMLButtonElement>
     ) => {
-        if (!trainee || !selectedUserId) return
+        if (!trainee) return
         toggleAction("deleteTrainee", "LOADING")
-        const count = await mutateDeleteTrainee(selectedUserId)
+        const count = await mutateDeleteTrainee(trainee)
         if (!count) return
         toggleAction("deleteTrainee", "SUCCESS")
     }
@@ -50,12 +44,8 @@ const DeleteTraineeDialog = (props: Props) => {
                     trainee ? (
                         <>
                             <span className="text-justify">
-                                Once
-                                <span className="font-semibold">
-                                    {` ${trainee.name} `}
-                                </span>
-                                is removed from this program, all logs made by
-                                the trainee will be removed.
+                                Once this trainee is removed from this program,
+                                all logs made by the trainee will be removed.
                             </span>
                             <div className="w-full inline-flex items-center justify-end space-x-2">
                                 <button

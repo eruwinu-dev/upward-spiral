@@ -1,4 +1,3 @@
-import { useGetProgram } from "@/hooks/program/useGetProgram"
 import { capitalize } from "@/utils/capitalize"
 import { getFrequencyString } from "@/utils/getFrequencyString"
 import { Habit } from "@prisma/client"
@@ -9,10 +8,6 @@ type Props = {
 }
 
 const HabitDashboard = ({ habit }: Props) => {
-    const { data: program } = useGetProgram()
-
-    if (!program) return <></>
-
     return (
         <>
             <div className="min-h-[93vh] max-h-[93vh] overflow-auto grid grid-cols-2 grid-flow-row place-items-start place-content-start col-span-12 p-4 gap-4">
@@ -46,8 +41,6 @@ const HabitDashboard = ({ habit }: Props) => {
                         </p>
                     </div>
                 </div>
-                <div className="w-full grid grid-cols-1 grid-flow-row gap-4 p-4 rounded-lg bg-base-200"></div>
-                <div className="w-full col-span-2 grid grid-cols-1 grid-flow-row gap-4 p-4 rounded-lg bg-base-200"></div>
             </div>
         </>
     )

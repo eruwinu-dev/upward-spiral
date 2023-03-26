@@ -1,33 +1,28 @@
 import { fetcher } from "@/utils/fetcher"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { useGetProgram } from "../program/useGetProgram"
+import { usePageRender } from "../custom/usePageRender"
 
 export const deleteTrainee = async (
-    programId: string | undefined,
+    programSlug: string | undefined,
     traineeId: string
 ) => {
     const { count } = await fetcher(
         "/api/trainee/delete",
         "DELETE",
-        JSON.stringify({ programId, traineeId })
+        JSON.stringify({ programSlug, traineeId })
     )
     return count
 }
 
 export const useDeleteTrainee = () => {
+    const { program } = usePageRender()
     const queryClient = useQueryClient()
-    const { data: program } = useGetProgram()
 
     return useMutation({
         mutationKey: ["delete-trainee"],
-        mutationFn: (traineeId: string) =>
-            deleteTrainee(program?.id, traineeId),
+        mutationFn: (traineeId: string) => deleteTrainee(program, traineeId),
         onSuccess: () =>
-            queryClient.invalidateQueries([
-                "trainer",
-                "program",
-                program?.slug,
-            ]),
+            queryClient.invalidateQueries(["trainer", "program", program]),
         onError: () => {},
     })
 }

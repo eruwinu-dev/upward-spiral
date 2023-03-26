@@ -9,6 +9,8 @@ import ViewLogDialog from "@/components/User/ViewLogDialog"
 import { getHabits } from "@/lib/habit/getHabits"
 import { getPrograms } from "@/lib/program/getPrograms"
 import { checkUser } from "@/utils/checkUser"
+import { parsePath } from "@/utils/parsePath"
+import { slugify } from "@/utils/slugify"
 import { dehydrate, QueryClient } from "@tanstack/react-query"
 import { GetServerSideProps } from "next"
 import React from "react"
@@ -76,6 +78,55 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
                     role: "USER",
                 }),
         })
+    }
+
+    const { program, habit, week, day } = parsePath(context.query.params)
+
+    const selectedProgram = programs.find(
+        (programItem) => programItem.slug == program
+    )
+
+    if (selectedProgram) {
+        await queryClient.prefetchQuery({
+            queryKey: ["user", "program", program, "habits"],
+            queryFn: async () =>
+                getHabits({
+                    userId: user.id,
+                    programId: selectedProgram.id,
+                    role: "USER",
+                }),
+        })
+    } else {
+        return {
+            notFound: true,
+        }
+    }
+
+    if (habit) {
+        const habits = await getHabits({
+            userId: user.id,
+            programId: selectedProgram.id,
+            role: "USER",
+        })
+        const selectedHabit = habits.find(
+            (habitItem) => slugify(habitItem.title) === habit
+        )
+        if (!selectedHabit) {
+            return {
+                notFound: true,
+            }
+        }
+    }
+
+    if (
+        Number(week) < 1 ||
+        Number(week) > 15 ||
+        Number(day) < 1 ||
+        Number(day) > 7
+    ) {
+        return {
+            notFound: true,
+        }
     }
 
     return {
