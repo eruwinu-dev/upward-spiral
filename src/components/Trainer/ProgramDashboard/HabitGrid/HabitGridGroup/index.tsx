@@ -8,7 +8,7 @@ type Props = {
 
 const HabitGridGroup = ({ group: { title, habits } }: Props) => {
     return (
-        <div className="w-full grid grid-cols-1 grid-flow-row gap-4 rounded-lg bg-base-200 p-4">
+        <div className="w-full grid grid-cols-1 grid-flow-row gap-4 rounded-lg bg-base-200/10 dark:bg-base-200 p-4">
             <div>
                 <h2 className="text-lg font-bold dark:text-white">{title}</h2>
             </div>

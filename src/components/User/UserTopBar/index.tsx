@@ -65,7 +65,7 @@ const UserTopBar = ({ program, habit, isCustom }: Props) => {
     }
 
     return (
-        <div className="sticky top-0 left-0 min-h-[7vh] max-h-[7vh] grid grid-cols-2 grid-flow-row py-1 px-2 bg-base-300 col-span-12 z-[3]">
+        <div className="sticky top-0 left-0 min-h-[7vh] max-h-[7vh] grid grid-cols-2 grid-flow-row py-1 px-2 bg-base-300/60 col-span-12 z-[3]">
             <div className="inline-flex items-center justify-start w-full space-x-1">
                 <h2
                     className="link link-hover text-lg font-semibold"

@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next"
 
-import { getLogsByHabit, GetLogByHabitData } from "@/lib/log/getLogs"
+import { getLogsByHabit } from "@/lib/log/getLogs"
 import {
     addWeeks,
     differenceInCalendarDays,

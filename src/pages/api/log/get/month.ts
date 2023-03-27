@@ -8,7 +8,6 @@ import {
     startOfMonth,
     startOfWeek,
 } from "date-fns"
-import { GetWeekData } from "@/types/date"
 
 type Data = {
     dates: CalendarDay[]

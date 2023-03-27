@@ -33,7 +33,7 @@ const HabitGridGroupItem = ({ habit }: Props) => {
 
     return (
         <div
-            className="w-full aspect-video p-4 rounded-lg border-2 drop-shadow-lg border-primary/50 hover:border-primary cursor-pointer grid grid-cols-1 grid-flow-row place-content-between gap-2 bg-base-200 hover:bg-base-300"
+            className="w-full aspect-video p-4 grid grid-cols-1 grid-flow-row place-content-between gap-2 rounded-lg cursor-pointer bg-base-200/40 hover:bg-base-200/80 dark:bg-base-300 dark:hover:bg-base-100"
             onClick={openHabitHandler}
         >
             <div className="inline-flex items-center">

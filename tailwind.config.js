@@ -3,7 +3,7 @@ const themes = require("./src/themes/index")
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     content: ["./src/**/*.{js,ts,jsx,tsx}"],
-    darkMode: "data-theme",
+    darkMode: ["class", '[data-theme="dark"]'],
     important: true,
     theme: {
         extend: {

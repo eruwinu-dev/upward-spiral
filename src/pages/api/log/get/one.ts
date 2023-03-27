@@ -3,7 +3,6 @@ import { getLog, GetLogData } from "@/lib/log/getLogs"
 import { ViewLog } from "@/types/log"
 import { toDateTimeString } from "@/utils/dates"
 import { utcToTimezone } from "@/utils/timezone"
-import { differenceInCalendarDays } from "date-fns"
 
 type Data = {
     log: ViewLog
@@ -24,7 +23,7 @@ const handler = async (req: ViewLogRequest, res: NextApiResponse<Data>) => {
         habitSlug,
         week,
         day,
-        startDate,
+        startDate: utcToTimezone(new Date(startDate), timezone),
     })
 
     const selectedLog = habitAndLog ? habitAndLog.logs[0] : undefined

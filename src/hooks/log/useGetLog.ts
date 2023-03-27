@@ -35,7 +35,7 @@ export const useGetLog = () => {
             const { log } = await result.json()
             return log
         },
-        enabled: !!program?.id && !!habit,
+        enabled: !!program?.id && !!habit && !!day && !!week,
         refetchOnWindowFocus: false,
     })
 }

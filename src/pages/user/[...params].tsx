@@ -119,13 +119,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
 
     if (
-        Number(week) < 1 ||
-        Number(week) > 15 ||
-        Number(day) < 1 ||
-        Number(day) > 7
+        (week || day) &&
+        (Number(week) < 1 ||
+            Number(week) > 15 ||
+            Number(day) < 1 ||
+            Number(day) > 7)
     ) {
         return {
-            notFound: true,
+            redirect: {
+                destination: "/",
+                permanent: false,
+            },
         }
     }
 

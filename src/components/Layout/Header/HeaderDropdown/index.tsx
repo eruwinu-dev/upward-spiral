@@ -17,7 +17,7 @@ const HeaderDropdown = (props: Props) => {
     if (!user) return <></>
 
     return (
-        <div className="header-dropdown dropdown-hover w-full bg-base-200 rounded-lg">
+        <div className="header-dropdown dropdown-hover w-full bg-base-100 rounded-lg">
             <label
                 tabIndex={0}
                 className="btn w-full btn-ghost inline-flex items-center justify-start space-x-2"
@@ -35,7 +35,7 @@ const HeaderDropdown = (props: Props) => {
             </label>
             <ul
                 tabIndex={0}
-                className="dropdown-content menu p-2 shadow bg-base-300 rounded-box w-52 z-10"
+                className="dropdown-content menu p-2 shadow bg-base-100 dark:bg-base-200 rounded-box w-52 z-10"
             >
                 <li>
                     <Link href="/">
